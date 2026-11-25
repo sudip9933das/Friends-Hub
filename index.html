@@ -210,60 +210,73 @@ nav button.on svg{animation:iconHop .55s var(--spring)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0ms!important;transition-duration:.01ms!important}
 }
+
+/* ---------- v2 ---------- */
+select{width:100%;font:500 16px var(--body);color:var(--ink);background:var(--lilac);border:var(--bw) solid var(--ink);border-radius:14px;padding:12px;margin-bottom:10px}
+.hbtns{display:flex;gap:10px}
+.hbtn{position:relative;width:44px;height:44px;background:var(--paper);border:var(--bw) solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);font-size:20px}
+.hbtn b{position:absolute;top:-8px;right:-8px;background:var(--pink);color:var(--ink);border:2px solid var(--ink);border-radius:99px;font-size:12px;min-width:22px}
+nav.noind .ind{opacity:0}
+.av{overflow:hidden;position:relative}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.av.big{width:92px;height:92px;font-size:42px;border-width:3px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>.grow{flex:1;min-width:0;overflow-wrap:anywhere}
+.row input{margin:0}
+.who2{border:0;background:none;padding:0;text-align:left;display:flex;gap:10px;align-items:center;color:var(--ink)}
+.who2 b,.who2 small{display:block}
+.link{border:0;background:none;color:var(--mute);font-size:12px;text-decoration:underline;padding:2px 4px;font-weight:700}
+.post{padding:14px;margin-bottom:18px}
+.post p{margin:10px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.pimg{display:block;width:100%;max-height:70vh;object-fit:cover;border:var(--bw) solid var(--ink);border-radius:14px;margin:10px 0;cursor:pointer;background:var(--lilac)}
+.cmt{border-top:2px dashed var(--soft);padding:7px 0;font-size:14px;overflow-wrap:anywhere}
+.sec{font:400 20px var(--display);margin:6px 2px 12px}
+.profile{text-align:center}
+.profile .av{margin:0 auto 8px}
+.profile .row{justify-content:center;margin-top:10px}
+.hiddenNote{color:#d6004f;font-weight:700;font-size:12px}
+.stag>.scroll>*{animation:rise .45s var(--spring) backwards}
+.stag>.scroll>:nth-child(2){animation-delay:.07s}.stag>.scroll>:nth-child(3){animation-delay:.14s}.stag>.scroll>:nth-child(n+4){animation-delay:.2s}
+.burst{position:fixed;z-index:2500;pointer-events:none;font-size:24px}
+.check{display:flex;gap:10px;align-items:center;padding:6px 0;font-weight:700}
+.check input{width:20px;height:20px;margin:0}
+#splash p{max-width:80%;text-align:center;font-weight:700}
 </style>
 </head>
 <body>
 <div class="shapes" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i><i class="s5"></i></div>
-<div id="splash" aria-hidden="true"><div class="ball"></div><div class="ground"></div></div>
+<div id="splash"><div class="ball"></div><div class="ground"></div><p id="splashMsg" hidden></p><button id="splashRetry" class="btn small" type="button" hidden onclick="location.reload()">Retry</button></div>
 <div id="toast" role="status"></div>
 
 <section id="auth" class="screen" hidden>
   <div class="hero">
-    <svg class="badge" viewBox="0 0 120 120" aria-hidden="true">
-      <defs><path id="cp" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
-      <circle cx="60" cy="60" r="56" fill="#ffd43b" stroke="#12103a" stroke-width="3"/>
-      <text font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="13" fill="#12103a"><textPath href="#cp" textLength="268" lengthAdjust="spacing">friends only • invite only • </textPath></text>
-      <circle cx="60" cy="60" r="21" fill="#ff4f9a" stroke="#12103a" stroke-width="3"/>
-      <path d="M52 57h.01M68 57h.01" stroke="#12103a" stroke-width="5.5" stroke-linecap="round"/>
-      <path d="M52 66q8 8 16 0" fill="none" stroke="#12103a" stroke-width="3" stroke-linecap="round"/>
-    </svg>
     <h1 class="wm" id="wm" aria-label="orbit"><span style="--n:0">o</span><span style="--n:1">r</span><span style="--n:2">b</span><span style="--n:3">i</span><span style="--n:4">t</span></h1>
-    <p class="tag">A private hangout for your friends.</p>
+    <p class="tag" data-i="tagline"></p>
   </div>
   <div class="card stk">
-    <div class="seg" id="seg">
-      <i class="sgi"></i>
-      <button id="tabLogin" type="button">Sign in</button>
-      <button id="tabSignup" type="button">Join</button>
-    </div>
+    <div class="seg" id="seg"><i class="sgi"></i><button id="tabLogin" type="button" data-i="signin"></button><button id="tabSignup" type="button" data-i="join"></button></div>
     <form id="loginForm" class="anim">
-      <input id="liEmail" type="email" placeholder="Email" autocomplete="email" required>
-      <input id="liPass" type="password" placeholder="Password" autocomplete="current-password" required>
-      <button id="liBtn" class="btn" type="submit">Sign in</button>
-      <p class="err" id="loginErr"></p>
+      <input id="liEmail" type="email" data-ph="email" autocomplete="email" required>
+      <input id="liPass" type="password" data-ph="password" autocomplete="current-password" required>
+      <button id="liBtn" class="btn" type="submit" data-i="signin"></button>
     </form>
     <form id="signupForm" class="anim" hidden>
-      <input id="suName" type="text" placeholder="Your name" maxlength="30" autocomplete="nickname" required>
-      <input id="suEmail" type="email" placeholder="Email" autocomplete="email" required>
-      <input id="suPass" type="password" placeholder="Password (6+ characters)" minlength="6" autocomplete="new-password" required>
-      <input id="suCode" type="text" placeholder="Invite code" autocomplete="off" required>
-      <button id="suBtn" class="btn" type="submit">Create account</button>
-      <p class="err" id="signupErr"></p>
+      <input id="suName" type="text" data-ph="yourName" maxlength="30" autocomplete="nickname" required>
+      <input id="suEmail" type="email" data-ph="email" autocomplete="email" required>
+      <input id="suPass" type="password" data-ph="password6" minlength="6" autocomplete="new-password" required>
+      <input id="suCode" type="text" data-ph="code" autocomplete="off" required>
+      <button id="suBtn" class="btn" type="submit" data-i="createAcc"></button>
     </form>
+    <p class="err" id="authMsg"></p>
   </div>
 </section>
 
 <section id="gate" class="screen" hidden>
-  <div class="hero small"><h1 class="wm" aria-label="orbit"><span style="--n:0">o</span><span style="--n:1">r</span><span style="--n:2">b</span><span style="--n:3">i</span><span style="--n:4">t</span></h1></div>
   <div class="card stk">
-    <h2>One more step</h2>
-    <p>Hi <b id="gateName"></b>. Enter the invite code your friends gave you.</p>
-    <form id="gateForm">
-      <input id="gateCode" type="text" placeholder="Invite code" autocomplete="off" required>
-      <button id="gateBtn" class="btn" type="submit">Unlock</button>
-      <p class="err" id="gateErr"></p>
-    </form>
-    <button id="gateLogout" class="btn small ghost" type="button" style="margin-top:6px">Sign out</button>
+    <h2 data-i="oneMore"></h2>
+    <p><b id="gateName"></b> · <span data-i="enterCode"></span></p>
+    <form id="gateForm"><input id="gateCode" type="text" data-ph="code" autocomplete="off" required><button id="gateBtn" class="btn" type="submit" data-i="unlock"></button><p class="err" id="gateErr"></p></form>
+    <button id="gateLogout" class="btn small ghost" type="button" data-i="signout"></button>
   </div>
 </section>
 
@@ -273,98 +286,20 @@ nav button.on svg{animation:iconHop .55s var(--spring)}
       <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="#ff4f9a" stroke="#12103a" stroke-width="2.4"/><ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="#12103a" stroke-width="2.4" transform="rotate(-25 16 16)"/><circle cx="28" cy="10" r="3" fill="#c6ff3d" stroke="#12103a" stroke-width="2"/></svg>
       <span>orbit</span>
     </div>
-    <div class="chip"><span class="av" id="hdrAv"></span><span id="hdrName"></span></div>
+    <div class="hbtns"><button id="peopleBtn" class="hbtn" type="button">👥<b id="reqCount" hidden></b></button><button id="setBtn" class="hbtn" type="button">⚙️</button></div>
   </header>
-  <main>
-    <section id="tab-chat" class="tab">
-      <div id="msgs"></div>
-      <form id="msgForm">
-        <input id="msgInput" type="text" placeholder="Message everyone" maxlength="2000" autocomplete="off">
-        <button class="btn small" type="submit">Send</button>
-      </form>
-    </section>
-
-    <section id="tab-photos" class="tab" hidden>
-      <div class="bar">
-        <input id="photoCap" type="text" placeholder="Add a caption (optional)" maxlength="200">
-        <label class="btn small" for="photoInput">Add photos</label>
-        <input id="photoInput" type="file" accept="image/*" multiple hidden>
-      </div>
-      <div class="scroll">
-        <div class="mut" id="upStatus" style="color:#fff;font-weight:700;margin:0 2px 6px"></div>
-        <div class="grid" id="photoGrid"></div>
-      </div>
-    </section>
-
-    <section id="tab-map" class="tab" hidden>
-      <div class="bar">
-        <label class="switch">
-          <span>Share my live location</span>
-          <input type="checkbox" id="shareMap"><span class="tg"></span>
-        </label>
-      </div>
-      <div id="map"></div>
-      <div id="people" class="people"></div>
-    </section>
-
-    <section id="tab-plans" class="tab" hidden>
-      <div class="scroll">
-        <button id="newPlanBtn" class="btn" type="button">New plan</button>
-        <form id="planForm" class="stk anim" hidden>
-          <input id="plTitle" type="text" placeholder="What's the plan?" maxlength="120" required>
-          <input id="plPlace" type="text" placeholder="Where?" maxlength="120">
-          <textarea id="plDetails" placeholder="Details" maxlength="1000"></textarea>
-          <div class="mut" style="margin-bottom:8px">When? Add one or more times and friends vote.</div>
-          <div id="dateInputs"><input type="datetime-local"></div>
-          <button id="addDate" class="btn small ghost" type="button">Add another time</button>
-          <div style="display:flex;gap:10px;margin-top:14px">
-            <button id="plSave" class="btn" type="submit">Create plan</button>
-            <button id="plCancel" class="btn ghost" type="button">Cancel</button>
-          </div>
-        </form>
-        <div id="planList" style="margin-top:18px"></div>
-      </div>
-    </section>
-
-    <section id="tab-me" class="tab" hidden>
-      <div class="scroll">
-        <div class="box stk">
-          <div class="lab">Email</div>
-          <div id="meEmail" style="margin-bottom:14px;font-weight:700"></div>
-          <div class="lab">Display name</div>
-          <input id="meName" type="text" maxlength="30">
-          <button id="meSave" class="btn small" type="button">Save name</button>
-          <div class="lab" style="margin-top:18px">Your color</div>
-          <div class="sws" id="swatches"></div>
-        </div>
-        <div class="box stk">
-          <label class="switch">
-            <span>Share my live location<br><span class="mut" style="font-weight:500">Updates while this page is open. Turning it off removes your location.</span></span>
-            <input type="checkbox" id="shareMe"><span class="tg"></span>
-          </label>
-        </div>
-        <button id="logoutBtn" class="btn ghost" type="button">Sign out</button>
-      </div>
-    </section>
-  </main>
+  <main><section id="view" class="tab"></section></main>
   <nav id="nav">
     <i class="ind"></i>
-    <button data-tab="chat" class="on"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Chat</button>
-    <button data-tab="photos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Photos</button>
-    <button data-tab="map"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Map</button>
-    <button data-tab="plans"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Plans</button>
-    <button data-tab="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Me</button>
+    <button data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg><span data-i="home"></span></button>
+    <button data-tab="chats"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-i="chats"></span></button>
+    <button data-tab="map"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i="map"></span></button>
+    <button data-tab="plans"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span data-i="plans"></span></button>
+    <button data-tab="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span data-i="me"></span></button>
   </nav>
 </div>
 
-<div id="lightbox" hidden>
-  <img id="lbImg" alt="">
-  <div id="lbInfo"></div>
-  <div class="row">
-    <button class="btn small ghost" id="lbClose" type="button">Close</button>
-    <button class="btn small danger" id="lbDel" type="button" hidden>Delete photo</button>
-  </div>
-</div>
+<div id="lightbox" hidden><img id="lbImg" alt=""><button class="btn small ghost" id="lbClose" type="button" data-i="close"></button></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -374,515 +309,506 @@ const SUPABASE_URL = 'https://aswlhsrkqhpklrfpcucr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_zMnLCkoTlsFbixr5FC8SVQ_ga5bAHJp';
 // ======================================================================
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// ---------- languages: [English, Bengali, Hindi] ----------
+const T = {
+home:['Home','হোম','होम'],chats:['Chats','চ্যাট','चैट'],map:['Map','ম্যাপ','मैप'],plans:['Plans','প্ল্যান','प्लान'],me:['Me','আমি','मैं'],
+tagline:['A private hangout for your friends.','তোমার বন্ধুদের নিজস্ব আড্ডা।','आपके दोस्तों का निजी अड्डा।'],signin:['Sign in','সাইন ইন','साइन इन'],join:['Register','রেজিস্টার','रजिस्टर'],createAcc:['Create account','অ্যাকাউন্ট খুলুন','खाता बनाएँ'],email:['Email','ইমেল','ईमेल'],password:['Password','পাসওয়ার্ড','पासवर्ड'],password6:['Password (6+ characters)','পাসওয়ার্ড (৬+ অক্ষর)','पासवर्ड (6+ अक्षर)'],yourName:['Your name','তোমার নাম','आपका नाम'],code:['Invite code','ইনভাইট কোড','इनवाइट कोड'],
+checkMail:['Check your email to confirm, or this email may already have an account.','ইমেল দেখে নিশ্চিত করো, অথবা এই ইমেলে আগেই অ্যাকাউন্ট থাকতে পারে।','पुष्टि के लिए ईमेल देखें, या इस ईमेल का खाता पहले से हो सकता है।'],badLogin:['Wrong email or password.','ইমেল বা পাসওয়ার্ড ভুল।','ईमेल या पासवर्ड गलत है।'],
+oneMore:['One more step','আর একটা ধাপ','एक और कदम'],enterCode:['Enter the invite code your friends gave you.','বন্ধুদের দেওয়া ইনভাইট কোড লেখো।','दोस्तों का दिया इनवाइट कोड डालें।'],unlock:['Unlock','খুলুন','खोलें'],badCode:["That code isn't right.",'কোডটা ঠিক নয়।','कोड सही नहीं है।'],signout:['Sign out','সাইন আউট','साइन आउट'],close:['Close','বন্ধ করুন','बंद करें'],
+netErr:["Couldn't reach the server. Check your connection and retry.",'সার্ভারে পৌঁছানো যাচ্ছে না। ইন্টারনেট দেখে আবার চেষ্টা করো।','सर्वर तक नहीं पहुँच सके। कनेक्शन जाँचकर दोबारा कोशिश करें।'],dbErr:['Database is not ready. Run upgrade.sql in Supabase.','ডাটাবেস তৈরি নয়। Supabase-এ upgrade.sql চালাও।','डेटाबेस तैयार नहीं है। Supabase में upgrade.sql चलाएँ।'],failed:["That didn't work. Try again.",'কাজটা হলো না। আবার চেষ্টা করো।','काम नहीं हुआ। फिर कोशिश करें।'],loading:['Loading…','লোড হচ্ছে…','लोड हो रहा है…'],
+whatsNew:["What's on your mind?",'কী ভাবছো?','आप क्या सोच रहे हैं?'],post:['Post','পোস্ট করো','पोस्ट करें'],noPosts:['No posts yet.','এখনো কোনো পোস্ট নেই।','अभी कोई पोस्ट नहीं।'],comment:['Write a comment…','মন্তব্য লেখো…','टिप्पणी लिखें…'],send:['Send','পাঠাও','भेजें'],del:['Delete','মুছুন','हटाएँ'],sure:['Are you sure?','তুমি কি নিশ্চিত?','क्या आप पक्का हैं?'],report:['Report','রিপোর্ট','रिपोर्ट'],why:['Why are you reporting this?','কেন রিপোর্ট করছো?','आप रिपोर्ट क्यों कर रहे हैं?'],reported:['Report sent to the admin.','অ্যাডমিনের কাছে রিপোর্ট গেছে।','रिपोर्ट एडमिन को भेज दी गई।'],hiddenNote:['Hidden by admin','অ্যাডমিন লুকিয়েছে','एडमिन ने छिपाया'],
+people:['People','মানুষজন','लोग'],search:['Search by name','নাম দিয়ে খোঁজো','नाम से खोजें'],requests:['Friend requests','বন্ধুত্বের অনুরোধ','फ़्रेंड रिक्वेस्ट'],friends:['Friends','বন্ধু','दोस्त'],others:['Other members','অন্য সদস্য','अन्य सदस्य'],addFriend:['Add friend','বন্ধু করো','दोस्त बनाएँ'],requested:['Cancel request','অনুরোধ বাতিল','रिक्वेस्ट रद्द करें'],accept:['Accept','গ্রহণ','स्वीकार'],decline:['Decline','বাতিল','अस्वीकार'],unfriend:['Unfriend','বন্ধুত্ব ভাঙো','अनफ़्रेंड'],message:['Message','মেসেজ','संदेश'],block:['Block','ব্লক','ब्लॉक'],unblock:['Unblock','আনব্লক','अनब्लॉक'],blocked:['Blocked people','ব্লক করা মানুষ','ब्लॉक किए लोग'],friendsOnly:['Become friends to see posts.','পোস্ট দেখতে বন্ধু হও।','पोस्ट देखने के लिए दोस्त बनें।'],none:['Nothing here yet.','এখানে এখনো কিছু নেই।','यहाँ अभी कुछ नहीं।'],
+lounge:['Everyone','সবাই','सभी'],newGroup:['New group','নতুন গ্রুপ','नया ग्रुप'],groupName:['Group name','গ্রুপের নাম','ग्रुप का नाम'],create:['Create','তৈরি করো','बनाएँ'],needGroup:['Enter a name and pick friends.','নাম লেখো ও বন্ধু বাছো।','नाम लिखें और दोस्त चुनें।'],typeMsg:['Type a message…','মেসেজ লেখো…','संदेश लिखें…'],back:['Back','ফিরে যাও','वापस'],leave:['Leave group','গ্রুপ ছাড়ো','ग्रुप छोड़ें'],
+shareLoc:['Share my live location','আমার লাইভ লোকেশন শেয়ার করো','मेरी लाइव लोकेशन शेयर करें'],locNote:['Only friends can see it. It updates while this app is open and expires after 2 hours.','শুধু বন্ধুরা দেখবে। অ্যাপ খোলা থাকলে আপডেট হয়, ২ ঘণ্টা পরে মুছে যায়।','केवल दोस्त देख सकते हैं। ऐप खुला रहने पर अपडेट होती है और 2 घंटे बाद हट जाती है।'],locAsk:['Your friends will see your exact location. Share it?','বন্ধুরা তোমার সঠিক অবস্থান দেখবে। শেয়ার করবে?','दोस्त आपकी सटीक लोकेशन देखेंगे। शेयर करें?'],locFail:["Couldn't get your location. Allow location access.",'লোকেশন পাওয়া যায়নি। অনুমতি দাও।','लोकेशन नहीं मिली। अनुमति दें।'],you:['You','তুমি','आप'],noMap:['Map could not load.','ম্যাপ লোড হয়নি।','मैप लोड नहीं हुआ।'],
+newPlan:['New plan','নতুন প্ল্যান','नया प्लान'],planTitle:["What's the plan?",'প্ল্যানটা কী?','प्लान क्या है?'],where:['Where?','কোথায়?','कहाँ?'],details:['Details','বিস্তারিত','विवरण'],when:['Add one or more times; friends vote.','এক বা একাধিক সময় দাও; বন্ধুরা ভোট দেবে।','एक या अधिक समय दें; दोस्त वोट करेंगे।'],addTime:['Add another time','আরেকটা সময়','एक और समय'],going:['Going','যাব','आऊँगा'],maybe:['Maybe','হয়তো','शायद'],no:["Can't go",'যাব না','नहीं आऊँगा'],votes:['votes','ভোট','वोट'],
+settings:['Settings','সেটিংস','सेटिंग्स'],language:['Language','ভাষা','भाषा'],photo:['Profile picture','প্রোফাইল ছবি','प्रोफ़ाइल फ़ोटो'],choosePhoto:['Choose picture','ছবি বাছো','फ़ोटो चुनें'],removePhoto:['Remove picture','ছবি সরাও','फ़ोटो हटाएँ'],bio:['About you','তোমার সম্পর্কে','आपके बारे में'],color:['Your color','তোমার রং','आपका रंग'],save:['Save','সেভ','सेव'],saved:['Saved','সেভ হয়েছে','सेव हो गया'],newPass:['New password (6+)','নতুন পাসওয়ার্ড (৬+)','नया पासवर्ड (6+)'],changePass:['Change password','পাসওয়ার্ড বদলাও','पासवर्ड बदलें'],edit:['Edit profile','প্রোফাইল বদলাও','प्रोफ़ाइल बदलें'],
+reports:['Reports (admin)','রিপোর্ট (অ্যাডমিন)','रिपोर्ट (एडमिन)'],hide:['Hide','লুকাও','छिपाएँ'],restore:['Restore','ফিরিয়ে আনো','वापस लाएँ'],dismiss:['Dismiss','বাতিল','खारिज'],open:['open','খোলা','खुली'],hidden:['hidden','লুকানো','छिपी'],dismissed:['dismissed','বাতিল','खारिज']
+};
+const store = {get:k=>{try{return localStorage.getItem(k)}catch{return null}}, set:(k,v)=>{try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}};
+const LANGS = {en:0,bn:1,hi:2};
+let lang = store.get('lang') in LANGS ? store.get('lang') : 'en';
+const t = k => T[k][LANGS[lang]];
+
+const COLORS = ['#ff4f9a','#ffd43b','#c6ff3d','#35d0ff','#ff8a3d','#9b7bff','#2ee6a6','#ff5b5b'];
+const HEADS = ['var(--pink)','var(--sun)','var(--lime)','#9fdcff'];
+const NAV = ['home','chats','map','plans','me'];
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const COLORS = ['#ff4f9a','#ffd43b','#c6ff3d','#35d0ff','#ff8a3d','#9b7bff','#2ee6a6','#ff5b5b'];
-const ORDER = ['chat','photos','map','plans','me'];
-const HEADS = ['var(--pink)','var(--sun)','var(--lime)','#9fdcff'];
 
-let me = null, profiles = {}, msgs = [], photos = [], photoUrls = {}, photosAt = 0;
-let plans = [], opts = [], votes = [], rsvps = [];
-let channel = null, map = null, markers = {}, watchId = null, lastSent = 0, firstFit = true;
-let planTimer = null, currentTab = 'chat', openPhotoIdx = -1;
+// all user text is added as text, never as HTML
+function h(tag, props, ...kids){
+  const el = document.createElement(tag);
+  for(const [k,v] of Object.entries(props || {})){
+    if(k.startsWith('on')) el[k] = v; else if(k in el && k !== 'list') el[k] = v; else el.setAttribute(k, v);
+  }
+  el.append(...kids.flat(Infinity).filter(x => x !== null && x !== undefined && x !== false && x !== ''));
+  return el;
+}
+let toastTimer;
+function toast(s){ const el = $('#toast'); el.textContent = s; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 3200); }
+async function q(query){ const { data, error } = await query; if(error) throw error; return data; }
+const fail = e => { console.error(e); toast(t('failed') + (e && e.message ? ' (' + e.message + ')' : '')); };
+function btn(label, action, cls = 'btn small'){
+  return h('button', { type:'button', className:cls, onclick: async e => { e.stopPropagation(); const b = e.currentTarget; b.disabled = true; try { await action(b); } catch(err){ fail(err); } b.disabled = false; } }, label);
+}
+const card = (...k) => h('div', { className:'box stk' }, ...k);
+const empty = s => h('p', { className:'empty' }, s);
+const sec = s => h('h2', { className:'sec' }, s);
+const mut = s => h('div', { className:'mut' }, s);
+const scroll = (...k) => h('div', { className:'scroll' }, ...k);
+const when = d => new Date(d).toLocaleString(lang + '-IN', { day:'numeric', month:'short', hour:'numeric', minute:'2-digit' });
+function burst(el, emoji){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const r = el.getBoundingClientRect();
+  for(let i = 0; i < 9; i++){
+    const s = h('span', { className:'burst' }, emoji); s.style.left = r.left + r.width/2 - 12 + 'px'; s.style.top = r.top + 'px'; document.body.append(s);
+    s.animate([{ transform:'none', opacity:1 }, { transform:`translate(${(Math.random()-.5)*180}px,${-40-Math.random()*140}px) rotate(${(Math.random()-.5)*120}deg) scale(1.5)`, opacity:0 }], { duration:850, easing:'ease-out' }).onfinish = () => s.remove();
+  }
+}
 
+let sb, me = null, profiles = {}, ships = [], blocks = new Set(), channel = null, token = 0, drawn = '';
+const urlCache = new Map();
+
+// ---------- data helpers ----------
 const col = c => /^#[0-9a-fA-F]{6}$/.test(c || '') ? c : '#8b87c9';
-function fg(hex){
-  const h = col(hex).slice(1); const r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
-  return (0.299*r + 0.587*g + 0.114*b) > 150 ? '#12103a' : '#ffffff';
-}
 const ini = n => (Array.from((n || '?').trim())[0] || '?').toUpperCase();
-function avHtml(p){ return `<span class="av" style="background-color:${col(p.color)};color:${fg(p.color)}">${esc(ini(p.name))}</span>`; }
+const nameOf = id => profiles[id]?.name || '…';
+const admin = () => !!profiles[me?.id]?.is_admin;
+const other = r => r.requester === me.id ? r.addressee : r.requester;
+const shipWith = id => ships.find(r => other(r) === id);
+const friendIds = () => ships.filter(r => r.status === 'accepted').map(other);
+async function sign(paths){
+  const need = [...new Set(paths.filter(p => p && !(urlCache.get(p)?.exp > Date.now())))];
+  if(!need.length) return;
+  const { data } = await sb.storage.from('photos').createSignedUrls(need, 3600);
+  (data || []).forEach(x => { if(x.signedUrl) urlCache.set(x.path, { url:x.signedUrl, exp:Date.now() + 50*60000 }); });
+}
+const urlOf = p => urlCache.get(p)?.url;
+async function loadBase(){
+  const [p, f, b] = await Promise.all([
+    q(sb.from('profiles').select('id,name,color,approved,avatar_path,bio,is_admin').eq('approved', true)),
+    q(sb.from('friendships').select('*')), q(sb.from('blocks').select('*'))]);
+  profiles = Object.fromEntries(p.map(x => [x.id, x])); ships = f; blocks = new Set(b.map(x => x.blocked));
+  await sign(p.map(x => x.avatar_path));
+  const n = ships.filter(r => r.status === 'pending' && r.addressee === me.id && profiles[r.requester]).length;
+  $('#reqCount').textContent = n; $('#reqCount').hidden = !n;
+}
+function av(id, big){
+  const p = profiles[id] || {}; const c = col(p.color);
+  const el = h('span', { className:'av' + (big ? ' big' : '') }, ini(p.name), urlOf(p.avatar_path) && h('img', { src:urlOf(p.avatar_path), alt:'' }));
+  el.style.backgroundColor = c; el.style.color = '#12103a'; return el;
+}
+const who = (id, sub) => h('button', { type:'button', className:'who2 grow', onclick:() => go('user', id) }, av(id), h('span', {}, h('b', {}, nameOf(id)), sub && h('small', { className:'mut' }, sub)));
 
-function toast(t){
-  const el = $('#toast'); el.textContent = t; el.classList.add('on');
-  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 3200);
+// delete is offered only to the author; everyone else gets report
+function itemAction(kind, id, owner, table){
+  if(owner === me.id) return btn(t('del'), async () => {
+    if(!confirm(t('sure'))) return;
+    const rows = await q(sb.from(table).delete().eq('id', id).select());
+    if(!rows.length) throw new Error('not deleted');
+    if(rows[0].path) await sb.storage.from('photos').remove([rows[0].path]);
+    render(true);
+  }, 'link');
+  return reportBtn(kind, id);
 }
-function hideSplash(){ const s = $('#splash'); if(s && !s.classList.contains('gone')){ s.classList.add('gone'); setTimeout(() => s.remove(), 700); } }
-function show(w){ $('#auth').hidden = w !== 'auth'; $('#gate').hidden = w !== 'gate'; $('#app').hidden = w !== 'app'; hideSplash(); }
-async function busy(btn, fn){ btn.disabled = true; try { await fn(); } finally { btn.disabled = false; } }
-function nameOf(id){ return profiles[id]?.name || 'A friend'; }
-function colorOf(id){ return col(profiles[id]?.color); }
-function ago(iso){
-  if(!iso) return '';
-  const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
-  if(s < 60) return 'just now';
-  if(s < 3600) return Math.floor(s/60) + ' min ago';
-  if(s < 86400) return Math.floor(s/3600) + ' h ago';
-  return Math.floor(s/86400) + ' d ago';
+function reportBtn(kind, id){
+  return btn('⚑ ' + t('report'), async () => {
+    const reason = (prompt(t('why')) || '').trim(); if(!reason) return;
+    await q(sb.rpc('report_item', { p_kind:kind, p_target:id, p_reason:reason })); toast(t('reported'));
+  }, 'link');
 }
-function fmtTime(iso){
-  const d = new Date(iso);
-  const t = d.toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'});
-  return d.toDateString() === new Date().toDateString() ? t : d.toLocaleDateString('en-IN', {day:'numeric', month:'short'}) + ', ' + t;
-}
-function fmtPlan(iso){ return new Date(iso).toLocaleString('en-IN', {weekday:'short', day:'numeric', month:'short', hour:'numeric', minute:'2-digit'}); }
-function authErr(e){
-  const m = (e && e.message) || '';
-  if(/Invalid login/i.test(m)) return 'Wrong email or password.';
-  if(/already registered/i.test(m)) return 'That email already has an account. Try signing in.';
-  if(/at least|weak|short/i.test(m)) return 'Password needs at least 6 characters.';
-  if(/rate limit/i.test(m)) return 'Too many tries. Wait a minute and try again.';
-  if(/valid email|invalid.*email/i.test(m)) return "That email doesn't look right.";
-  return m || 'Something went wrong. Try again.';
-}
-
-// ---------- hero letters ----------
-$('#wm').addEventListener('click', e => {
-  const s = e.target.closest('span'); if(!s) return;
-  s.animate([
-    { transform: 'translateY(0) scale(1) rotate(0deg)' },
-    { transform: 'translateY(-46px) scale(1.25) rotate(-14deg)' },
-    { transform: 'translateY(0) scale(1) rotate(0deg)' }
-  ], { duration: 650, easing: 'cubic-bezier(.34,1.56,.64,1)' });
-});
-
-// ---------- sign in / join ----------
-function authTab(w){
-  $('#loginForm').hidden = w !== 'login'; $('#signupForm').hidden = w !== 'signup';
-  $('#seg').style.setProperty('--i', w === 'login' ? 0 : 1);
-}
-$('#tabLogin').onclick = () => authTab('login');
-$('#tabSignup').onclick = () => authTab('signup');
-
-$('#loginForm').onsubmit = e => {
-  e.preventDefault();
-  busy($('#liBtn'), async () => {
-    $('#loginErr').textContent = '';
-    const { data, error } = await sb.auth.signInWithPassword({ email: $('#liEmail').value.trim(), password: $('#liPass').value });
-    if(error){ $('#loginErr').textContent = authErr(error); return; }
-    await afterLogin(data.user);
-  });
-};
-$('#signupForm').onsubmit = e => {
-  e.preventDefault();
-  busy($('#suBtn'), async () => {
-    $('#signupErr').textContent = '';
-    const code = $('#suCode').value.trim();
-    const { data, error } = await sb.auth.signUp({
-      email: $('#suEmail').value.trim(), password: $('#suPass').value,
-      options: { data: { name: $('#suName').value.trim() } }
-    });
-    if(error){ $('#signupErr').textContent = authErr(error); return; }
-    if(!data.session){ $('#signupErr').textContent = 'Check your email to confirm, or this email may already have an account. Try signing in.'; return; }
-    if(code) await sb.rpc('join_with_code', { p_code: code });
-    await afterLogin(data.user);
-  });
-};
-$('#gateForm').onsubmit = e => {
-  e.preventDefault();
-  busy($('#gateBtn'), async () => {
-    $('#gateErr').textContent = '';
-    const { data, error } = await sb.rpc('join_with_code', { p_code: $('#gateCode').value.trim() });
-    if(error || data !== true){ $('#gateErr').textContent = "That code isn't right."; return; }
-    await afterLogin(me);
-  });
-};
-$('#gateLogout').onclick = () => sb.auth.signOut();
-$('#logoutBtn').onclick = () => sb.auth.signOut();
-
-async function afterLogin(user){
-  me = user;
-  const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  if(error || !data){
-    toast("Couldn't find your profile. Check that the SQL setup ran.");
-    await sb.auth.signOut();
-    return;
-  }
-  if(!data.approved){ $('#gateName').textContent = data.name; show('gate'); return; }
-  await startApp();
-}
-
-function teardown(){
-  unsubscribe(); stopWatch();
-  me = null; profiles = {}; msgs = []; photos = []; photoUrls = {}; plans = []; opts = []; votes = []; rsvps = [];
-  if(map){ map.remove(); map = null; markers = {}; firstFit = true; }
-  $('#msgs').innerHTML = ''; $('#photoGrid').innerHTML = ''; $('#planList').innerHTML = '';
-  $('#liPass').value = ''; $('#suPass').value = ''; $('#gateCode').value = '';
-}
-sb.auth.onAuthStateChange(ev => { if(ev === 'SIGNED_OUT'){ teardown(); show('auth'); } });
-
-async function startApp(){
-  show('app');
-  await loadProfiles();
-  renderHeader(); renderMe(); renderPeople();
-  subscribe();
-  await Promise.all([loadMessages(), loadPhotos(), loadPlans()]);
-  currentTab = 'chat'; switchTab('chat');
-  if(profiles[me.id]?.share_location) startWatch();
-}
-
-// ---------- tabs ----------
-function switchTab(t){
-  const prev = ORDER.indexOf(currentTab), next = ORDER.indexOf(t);
-  currentTab = t;
-  $('#nav').style.setProperty('--i', next);
-  $$('.tab').forEach(s => { s.hidden = s.id !== 'tab-' + t; });
-  const el = $('#tab-' + t);
-  el.style.setProperty('--dx', (next >= prev ? 28 : -28) + 'px');
-  el.classList.remove('stag'); void el.offsetWidth; el.classList.add('stag');
-  clearTimeout(el._st); el._st = setTimeout(() => el.classList.remove('stag'), 1800);
-  $$('#nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
-  if(t === 'chat'){ const m = $('#msgs'); m.scrollTop = m.scrollHeight; }
-  if(t === 'photos' && Date.now() - photosAt > 30 * 60 * 1000) loadPhotos();
-  if(t === 'map'){ initMap(); setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 60); }
-}
-$('#nav').onclick = e => { const b = e.target.closest('button'); if(b) switchTab(b.dataset.tab); };
-
-// ---------- profile ----------
-async function loadProfiles(){
-  const { data } = await sb.from('profiles').select('id,name,color,approved,share_location,lat,lng,location_updated_at').eq('approved', true);
-  profiles = {}; (data || []).forEach(p => profiles[p.id] = p);
-}
-function onProfile(p){
-  if(p.eventType === 'DELETE'){ delete profiles[p.old?.id]; }
-  else if(p.new && p.new.id){ if(p.new.approved) profiles[p.new.id] = p.new; else delete profiles[p.new.id]; }
-  renderPeople(); if(currentTab === 'map') renderMarkers();
-}
-function renderHeader(){
-  const p = profiles[me.id]; if(!p) return;
-  $('#hdrName').textContent = p.name;
-  const a = $('#hdrAv'); a.textContent = ini(p.name); a.style.backgroundColor = col(p.color); a.style.color = fg(p.color);
-}
-function renderMe(){
-  const p = profiles[me.id]; if(!p) return;
-  $('#meName').value = p.name; $('#meEmail').textContent = me.email || '';
-  $('#swatches').innerHTML = COLORS.map(c => `<button type="button" class="swc ${c === p.color ? 'on' : ''}" style="background-color:${c}" data-c="${c}" aria-label="Color ${c}"></button>`).join('');
-  syncShare();
-}
-$('#meSave').onclick = async () => {
-  const name = $('#meName').value.trim(); if(!name) return;
-  const { error } = await sb.from('profiles').update({ name }).eq('id', me.id);
-  if(error){ toast("Couldn't save your name."); return; }
-  profiles[me.id].name = name; renderHeader(); renderPeople(); toast('Name saved');
-};
-$('#swatches').onclick = async e => {
-  const b = e.target.closest('.swc'); if(!b) return;
-  const { error } = await sb.from('profiles').update({ color: b.dataset.c }).eq('id', me.id);
-  if(error){ toast("Couldn't save your color."); return; }
-  profiles[me.id].color = b.dataset.c; renderMe(); renderHeader(); renderPeople(); if(map) renderMarkers();
-};
-
-// ---------- chat ----------
-async function loadMessages(){
-  const { data, error } = await sb.from('messages').select('id,user_id,content,created_at').order('created_at', { ascending: false }).limit(150);
-  if(error){ toast("Couldn't load messages."); return; }
-  msgs = (data || []).reverse(); renderMsgs();
-}
-function renderMsgs(){
-  const box = $('#msgs'); box.innerHTML = '';
-  if(!msgs.length){ box.innerHTML = '<p class="empty">No messages yet. Say hi.</p>'; return; }
-  msgs.forEach(m => box.appendChild(msgEl(m)));
-  box.scrollTop = box.scrollHeight;
-}
-function msgEl(m, fresh){
-  const mine = m.user_id === me.id;
-  const d = document.createElement('div'); d.className = 'm' + (mine ? ' me' : '') + (fresh ? ' pop' : ''); d.dataset.id = m.id;
-  if(!mine){
-    const w = document.createElement('div'); w.className = 'who';
-    const dot = document.createElement('i'); dot.style.backgroundColor = colorOf(m.user_id);
-    const nm = document.createElement('span'); nm.textContent = nameOf(m.user_id);
-    w.appendChild(dot); w.appendChild(nm); d.appendChild(w);
-  }
-  const p = document.createElement('div'); p.textContent = m.content; d.appendChild(p);
-  const t = document.createElement('div'); t.className = 't'; t.textContent = fmtTime(m.created_at);
-  if(mine){ const x = document.createElement('button'); x.className = 'x'; x.type = 'button'; x.textContent = 'Delete'; x.onclick = () => delMsg(m.id); t.appendChild(x); }
-  d.appendChild(t); return d;
-}
-async function addMsg(m){
-  if(msgs.some(x => x.id === m.id)) return;
-  if(!profiles[m.user_id]) await loadProfiles();
-  msgs.push(m);
-  const box = $('#msgs');
-  if(msgs.length === 1){ renderMsgs(); return; }
-  const near = box.scrollHeight - box.scrollTop - box.clientHeight < 140;
-  box.appendChild(msgEl(m, true));
-  if(near || m.user_id === me.id) box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
-}
-async function delMsg(id){
-  if(!confirm('Delete this message?')) return;
-  const { error } = await sb.from('messages').delete().eq('id', id);
-  if(error){ toast("Couldn't delete that message."); return; }
-  msgs = msgs.filter(m => m.id !== id); renderMsgs();
-}
-$('#msgForm').onsubmit = async e => {
-  e.preventDefault();
-  const inp = $('#msgInput'); const text = inp.value.trim(); if(!text) return;
-  inp.value = '';
-  const { data, error } = await sb.from('messages').insert({ user_id: me.id, content: text }).select().single();
-  if(error){ inp.value = text; toast("Couldn't send that message."); return; }
-  await addMsg(data); inp.focus();
-};
 
 // ---------- photos ----------
-function resize(file, max = 1280, q = 0.82){
+function resize(file, max = 1280){
   return new Promise((res, rej) => {
     const img = new Image(); const url = URL.createObjectURL(file);
     img.onload = () => {
-      let w = img.width, h = img.height; const r = Math.min(1, max / Math.max(w, h));
-      w = Math.round(w * r); h = Math.round(h * r);
-      const c = document.createElement('canvas'); c.width = w; c.height = h;
-      c.getContext('2d').drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url);
-      c.toBlob(b => b ? res(b) : rej(new Error('Could not shrink the photo')), 'image/jpeg', q);
+      const r = Math.min(1, max / Math.max(img.width, img.height)); const c = document.createElement('canvas');
+      c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); // re-drawing removes photo GPS data
+      c.toBlob(b => b ? res(b) : rej(new Error('image')), 'image/jpeg', .82);
     };
     img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Could not read the photo')); };
     img.src = url;
   });
 }
-async function loadPhotos(){
-  const { data, error } = await sb.from('photos').select('id,user_id,path,caption,created_at').order('created_at', { ascending: false }).limit(90);
-  if(error){ toast("Couldn't load photos."); return; }
-  photos = data || []; photoUrls = {};
-  if(photos.length){
-    const r = await sb.storage.from('photos').createSignedUrls(photos.map(p => p.path), 3600);
-    (r.data || []).forEach(x => { if(x.signedUrl) photoUrls[x.path] = x.signedUrl; });
+async function upload(file, prefix, max){
+  const path = `${me.id}/${prefix}${Date.now()}-${Math.random().toString(36).slice(2,8)}.jpg`;
+  await q(sb.storage.from('photos').upload(path, await resize(file, max), { contentType:'image/jpeg' }));
+  return path;
+}
+function zoom(url){ $('#lbImg').src = url; $('#lightbox').hidden = false; }
+$('#lbClose').onclick = $('#lightbox').onclick = e => { if(e.target.id !== 'lbImg') $('#lightbox').hidden = true; };
+
+// ---------- feed + posts ----------
+function composer(){
+  const text = h('textarea', { placeholder:t('whatsNew'), maxLength:2000, 'data-k':'post' });
+  const file = h('input', { type:'file', accept:'image/*' });
+  return card(text, file, btn(t('post'), async b => {
+    const caption = text.value.trim(), f = file.files[0]; if(!caption && !f) return;
+    const path = f ? await upload(f, '') : null;
+    try { await q(sb.from('photos').insert({ user_id:me.id, path, caption:caption || null })); }
+    catch(e){ if(path) await sb.storage.from('photos').remove([path]); throw e; }
+    burst(b, '✨'); text.value = ''; file.value = ''; render(true);
+  }, 'btn'));
+}
+async function postList(userId){
+  let query = sb.from('photos').select('*, post_likes(user_id), comments(*)').order('created_at', { ascending:false }).limit(40);
+  const ids = userId ? [userId] : [me.id, ...friendIds()];
+  const posts = await q(query.in('user_id', ids));
+  await sign(posts.map(p => p.path));
+  if(!posts.length) return [empty(t('noPosts'))];
+  return posts.map(p => {
+    const likes = p.post_likes || []; const liked = likes.some(l => l.user_id === me.id);
+    const input = h('input', { placeholder:t('comment'), maxLength:500, className:'grow', 'data-k':'c' + p.id });
+    return h('article', { className:'post stk' },
+      h('div', { className:'row' }, who(p.user_id, when(p.created_at)), itemAction('post', p.id, p.user_id, 'photos')),
+      p.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')),
+      p.caption && h('p', {}, p.caption),
+      urlOf(p.path) && h('img', { className:'pimg', loading:'lazy', src:urlOf(p.path), alt:p.caption || '', onclick:() => zoom(urlOf(p.path)) }),
+      btn((liked ? '❤️ ' : '🤍 ') + likes.length, async b => {
+        if(!liked) burst(b, '❤️');
+        await q(liked ? sb.from('post_likes').delete().match({ post_id:p.id, user_id:me.id }) : sb.from('post_likes').insert({ post_id:p.id, user_id:me.id }));
+        render(true);
+      }, 'btn small ghost'),
+      (p.comments || []).filter(c => !blocks.has(c.user_id)).sort((a,b) => a.created_at.localeCompare(b.created_at)).map(c =>
+        h('div', { className:'cmt' }, h('b', {}, nameOf(c.user_id) + ': '), c.content, ' ', c.hidden && h('span', { className:'hiddenNote' }, t('hiddenNote')), itemAction('comment', c.id, c.user_id, 'comments'))),
+      h('div', { className:'row' }, input, btn(t('send'), async () => {
+        const content = input.value.trim(); if(!content) return;
+        await q(sb.from('comments').insert({ post_id:p.id, user_id:me.id, content })); input.value = ''; render(true);
+      })));
+  });
+}
+
+// ---------- profiles + people ----------
+function friendButtons(id){
+  const r = shipWith(id);
+  if(blocks.has(id)) return [btn(t('unblock'), async () => { await q(sb.from('blocks').delete().match({ blocker:me.id, blocked:id })); render(); })];
+  if(!r) return [btn('➕ ' + t('addFriend'), async b => { await q(sb.from('friendships').insert({ addressee:id })); burst(b,'👋'); render(true); })];
+  const remove = label => btn(label, async () => { if(r.status === 'accepted' && !confirm(t('sure'))) return; await q(sb.from('friendships').delete().eq('id', r.id)); render(true); }, 'btn small ghost');
+  if(r.status === 'accepted') return [btn('💬 ' + t('message'), async () => go('chat', await q(sb.rpc('open_dm', { other:id })))), remove(t('unfriend'))];
+  if(r.requester === me.id) return [remove(t('requested'))];
+  return [btn(t('accept'), async b => { await q(sb.from('friendships').update({ status:'accepted' }).eq('id', r.id)); burst(b,'🎉'); render(true); }), remove(t('decline'))];
+}
+async function profileView(id){
+  const p = profiles[id]; if(!p) return [scroll(empty(t('none')))];
+  const mine = id === me.id, friend = shipWith(id)?.status === 'accepted';
+  const head = h('div', { className:'box stk profile' }, av(id, true), h('h2', { className:'sec' }, p.name), p.bio && h('p', {}, p.bio),
+    mut(friendIds().length && mine ? `${friendIds().length} · ${t('friends')}` : ''),
+    h('div', { className:'row' }, mine ? [btn('✏️ ' + t('edit'), () => go('settings')), btn('👥 ' + t('friends'), () => go('people'), 'btn small ghost')] : friendButtons(id)),
+    !mine && h('div', { className:'row' }, reportBtn('profile', id), !blocks.has(id) && btn(t('block'), async () => {
+      if(!confirm(t('sure'))) return; await q(sb.from('blocks').insert({ blocker:me.id, blocked:id })); render(); }, 'link')));
+  const posts = mine || friend || admin() ? await postList(id) : [empty(t('friendsOnly'))];
+  return [scroll(head, mine && composer(), posts)];
+}
+async function peopleView(){
+  const list = h('div');
+  const search = h('input', { placeholder:t('search'), oninput:() => draw() });
+  function draw(){
+    const s = search.value.trim().toLowerCase();
+    const all = Object.keys(profiles).filter(id => id !== me.id && !blocks.has(id) && nameOf(id).toLowerCase().includes(s)).sort((a,b) => nameOf(a).localeCompare(nameOf(b)));
+    const line = id => card(h('div', { className:'row' }, who(id), friendButtons(id)));
+    const req = all.filter(id => shipWith(id)?.status === 'pending' && shipWith(id).addressee === me.id);
+    const fr = all.filter(id => shipWith(id)?.status === 'accepted');
+    const rest = all.filter(id => !req.includes(id) && !fr.includes(id));
+    list.replaceChildren(...[req.length && [sec(t('requests')), req.map(line)], sec(t('friends')), fr.length ? fr.map(line) : empty(t('none')), rest.length && [sec(t('others')), rest.map(line)]].flat(3).filter(Boolean));
   }
-  photosAt = Date.now(); renderPhotos();
+  draw();
+  return [scroll(sec(t('people')), search, list)];
 }
-function renderPhotos(){
-  const g = $('#photoGrid');
-  if(!photos.length){ g.innerHTML = '<p class="empty">No photos yet. Tap Add photos to post the first one.</p>'; return; }
-  g.innerHTML = photos.map((p, i) => photoUrls[p.path]
-    ? `<figure class="ph" data-i="${i}" style="--d:${Math.min(i, 14) * 60}ms"><img loading="lazy" src="${esc(photoUrls[p.path])}" alt="${esc(p.caption || 'Photo from ' + nameOf(p.user_id))}"><figcaption>${esc(p.caption || nameOf(p.user_id))}</figcaption></figure>`
-    : '').join('');
+
+// ---------- chats ----------
+async function chatsView(){
+  const chats = await q(sb.from('chats').select('*, chat_members(user_id)').order('created_at', { ascending:false }));
+  const friends = friendIds().filter(id => profiles[id]);
+  const gname = h('input', { placeholder:t('groupName'), maxLength:60, 'data-k':'gname' });
+  const boxes = friends.map(id => h('input', { type:'checkbox', value:id }));
+  const form = h('details', { className:'box stk' }, h('summary', {}, '➕ ' + t('newGroup')), gname,
+    friends.map((id, i) => h('label', { className:'check' }, boxes[i], nameOf(id))), !friends.length && mut(t('none')),
+    btn(t('create'), async () => {
+      const members = boxes.filter(b => b.checked).map(b => b.value);
+      if(!gname.value.trim() || !members.length) return toast(t('needGroup'));
+      go('chat', await q(sb.rpc('create_group', { group_title:gname.value, members })));
+    }));
+  const line = (id, title, sub, icon) => h('div', { className:'box stk', onclick:() => go('chat', id) }, h('div', { className:'row' }, icon, h('div', { className:'grow' }, h('b', {}, title), sub && mut(sub))));
+  return [scroll(line('lounge', '🪐 ' + t('lounge')), form, chats.map(c => {
+    const ids = (c.chat_members || []).map(m => m.user_id), o = ids.find(i => i !== me.id);
+    if(!c.is_group && blocks.has(o)) return null;
+    return c.is_group ? line(c.id, '👥 ' + c.title, ids.map(nameOf).join(', ')) : line(c.id, nameOf(o), '', av(o));
+  }))];
 }
-$('#photoGrid').onclick = e => { const f = e.target.closest('.ph'); if(f) openPhoto(+f.dataset.i); };
-function openPhoto(i){
-  const p = photos[i]; if(!p) return; openPhotoIdx = i;
-  $('#lbImg').src = photoUrls[p.path] || '';
-  $('#lbInfo').textContent = nameOf(p.user_id) + ' · ' + fmtTime(p.created_at) + (p.caption ? ' · ' + p.caption : '');
-  $('#lbDel').hidden = p.user_id !== me.id;
-  $('#lightbox').hidden = false;
+function bubble(m, room, fresh){
+  const mine = m.user_id === me.id;
+  return h('div', { className:'m' + (mine ? ' me' : '') + (fresh ? ' pop' : ''), 'data-id':m.id },
+    !mine && h('div', { className:'who' }, nameOf(m.user_id)),
+    h('div', {}, m.content), m.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')),
+    h('div', { className:'t' }, when(m.created_at) + ' ', itemAction(room === 'lounge' ? 'message' : 'chat_message', m.id, m.user_id, room === 'lounge' ? 'messages' : 'chat_messages')));
 }
-function closePhoto(){ $('#lightbox').hidden = true; $('#lbImg').removeAttribute('src'); openPhotoIdx = -1; }
-$('#lbClose').onclick = closePhoto;
-$('#lightbox').onclick = e => { if(e.target.id === 'lightbox') closePhoto(); };
-$('#lbDel').onclick = async () => {
-  const p = photos[openPhotoIdx]; if(!p || !confirm('Delete this photo?')) return;
-  await sb.storage.from('photos').remove([p.path]);
-  const { error } = await sb.from('photos').delete().eq('id', p.id);
-  if(error){ toast("Couldn't delete that photo."); return; }
-  closePhoto(); toast('Photo deleted'); loadPhotos();
-};
-$('#photoInput').onchange = async e => {
-  const files = [...e.target.files]; e.target.value = ''; if(!files.length) return;
-  const cap = $('#photoCap').value.trim(); let ok = 0;
-  for(let i = 0; i < files.length; i++){
-    $('#upStatus').textContent = `Uploading ${i + 1} of ${files.length}...`;
-    try {
-      const blob = await resize(files[i]);
-      const path = `${me.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
-      const up = await sb.storage.from('photos').upload(path, blob, { contentType: 'image/jpeg' });
-      if(up.error) throw up.error;
-      const ins = await sb.from('photos').insert({ user_id: me.id, path, caption: cap || null });
-      if(ins.error){ await sb.storage.from('photos').remove([path]); throw ins.error; }
-      ok++;
-    } catch(err){ toast("Couldn't upload a photo: " + (err.message || 'unknown error')); }
+async function fetchMsgs(room){
+  let query = room === 'lounge' ? sb.from('messages').select('*') : sb.from('chat_messages').select('*').eq('chat_id', room);
+  const rows = await q(query.order('created_at', { ascending:false }).limit(150));
+  return rows.reverse().filter(m => !blocks.has(m.user_id));
+}
+// adds new messages and removes deleted ones without touching what is being typed
+async function syncChat(){
+  const box = $('#msgs'); if(!box) return;
+  const room = box.dataset.room, rows = await fetchMsgs(room);
+  if($('#msgs') !== box) return;
+  const ids = new Set(rows.map(m => String(m.id)));
+  box.querySelectorAll('.m').forEach(el => { if(!ids.has(el.dataset.id)) el.remove(); });
+  const near = box.scrollHeight - box.scrollTop - box.clientHeight < 140;
+  let added = false;
+  rows.forEach(m => { if(!box.querySelector(`[data-id="${m.id}"]`)){ box.querySelector('.empty')?.remove(); box.append(bubble(m, room, true)); added = true; } });
+  if(added && near) box.scrollTop = box.scrollHeight;
+}
+async function chatView(room){
+  let title = '🪐 ' + t('lounge'), chat = null;
+  if(room !== 'lounge'){
+    chat = await q(sb.from('chats').select('*, chat_members(user_id)').eq('id', room).single());
+    title = chat.is_group ? '👥 ' + chat.title : nameOf(chat.chat_members.find(m => m.user_id !== me.id)?.user_id);
   }
-  $('#photoCap').value = ''; $('#upStatus').textContent = '';
-  if(ok){ await loadPhotos(); toast(ok === 1 ? 'Photo added' : ok + ' photos added'); }
-};
+  const rows = await fetchMsgs(room);
+  const table = room === 'lounge' ? 'messages' : 'chat_messages';
+  const input = h('input', { placeholder:t('typeMsg'), maxLength:2000, autocomplete:'off', 'data-k':'msg' });
+  const send = h('button', { type:'submit', className:'btn small' }, t('send'));
+  return [h('div', { className:'bar' }, btn('←', () => go('chats'), 'btn small ghost'), h('b', { style:'flex:1' }, title),
+      chat?.is_group && btn(t('leave'), async () => { if(!confirm(t('sure'))) return; await q(sb.from('chat_members').delete().match({ chat_id:room, user_id:me.id })); go('chats'); }, 'btn small danger')),
+    h('div', { id:'msgs', 'data-room':room }, rows.length ? rows.map(m => bubble(m, room)) : empty(t('none'))),
+    h('form', { id:'msgForm', onsubmit: async e => {
+      e.preventDefault(); const content = input.value.trim(); if(!content || send.disabled) return; send.disabled = true;
+      try { const row = { user_id:me.id, content }; if(room !== 'lounge') row.chat_id = room; await q(sb.from(table).insert(row)); input.value = ''; await syncChat(); $('#msgs').scrollTop = 1e9; }
+      catch(err){ fail(err); }
+      send.disabled = false; input.focus();
+    } }, input, send)];
+}
 
 // ---------- map + location ----------
-function initMap(){
-  if(map) return;
-  map = L.map('map', { zoomControl: false }).setView([22.5, 80], 4);
-  L.control.zoom({ position: 'bottomright' }).addTo(map);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
-}
-function renderMarkers(){
-  if(!map) return;
-  const live = Object.values(profiles).filter(p => p.share_location && p.lat != null && p.lng != null);
-  const ids = new Set(live.map(p => p.id));
-  Object.keys(markers).forEach(id => { if(!ids.has(id)){ map.removeLayer(markers[id]); delete markers[id]; } });
-  live.forEach(p => {
-    const ll = [p.lat, p.lng]; const c = col(p.color);
-    const icon = L.divIcon({
-      className: '',
-      html: `<div class="pin" style="background-color:${c};color:${fg(c)};--pc:${c}">${esc(ini(p.name))}</div>`,
-      iconSize: [38, 38], iconAnchor: [19, 19], popupAnchor: [0, -20]
-    });
-    const popup = `${esc(p.name)}<br><span style="font-weight:500">${esc(ago(p.location_updated_at))}</span>`;
-    if(markers[p.id]){ markers[p.id].setLatLng(ll).setIcon(icon).setPopupContent(popup); }
-    else { markers[p.id] = L.marker(ll, { icon }).addTo(map).bindPopup(popup); }
-  });
-  if(firstFit && live.length){
-    map.fitBounds(L.latLngBounds(live.map(p => [p.lat, p.lng])), { padding: [50, 50], maxZoom: 15 });
-    firstFit = false;
-  }
-}
-function renderPeople(){
-  const list = Object.values(profiles).sort((a, b) => (b.share_location ? 1 : 0) - (a.share_location ? 1 : 0) || a.name.localeCompare(b.name));
-  $('#people').innerHTML = list.map((p, i) => {
-    const live = p.share_location && p.lat != null;
-    return `<button type="button" class="person${live ? '' : ' off'}" style="--d:${Math.min(i, 12) * 55}ms" ${live ? `data-id="${esc(p.id)}"` : 'disabled'}>
-      ${avHtml(p)}<span class="pn"><b>${esc(p.name)}${p.id === me?.id ? ' (you)' : ''}</b><small>${live ? esc(ago(p.location_updated_at)) : 'Location off'}</small></span></button>`;
-  }).join('') || '<p class="empty" style="margin:0">No one is here yet.</p>';
-}
-$('#people').onclick = e => {
-  const b = e.target.closest('.person[data-id]'); if(!b || !map) return;
-  const p = profiles[b.dataset.id]; if(!p || p.lat == null) return;
-  map.flyTo([p.lat, p.lng], 15, { duration: 1.2 }); markers[p.id]?.openPopup();
-};
-function syncShare(){ const on = !!profiles[me?.id]?.share_location; $('#shareMap').checked = on; $('#shareMe').checked = on; }
-async function pushLoc(pos){
-  lastSent = Date.now();
-  const row = { lat: pos.coords.latitude, lng: pos.coords.longitude, location_updated_at: new Date().toISOString() };
-  const { error } = await sb.from('profiles').update(row).eq('id', me.id);
-  if(!error && profiles[me.id]) Object.assign(profiles[me.id], row);
+let watchId = null, lastPos = null, lastSent = 0, beat = null, saving = Promise.resolve(), map = null, markers = null, fitted = false, spots = [];
+const mapDiv = h('div', { id:'map' });
+const shareKey = () => 'share:' + me.id;
+function sendLoc(force){
+  if(watchId === null || !lastPos || (!force && Date.now() - lastSent < 25000)) return;
+  lastSent = Date.now(); const c = lastPos.coords, uid = me.id;
+  saving = saving.then(() => watchId === null ? null : q(sb.from('locations').upsert({ user_id:uid, lat:c.latitude, lng:c.longitude })))
+    .then(() => { if(route().name === 'map') render(true); }).catch(fail);
 }
 function startWatch(){
-  if(watchId != null || !navigator.geolocation) return;
-  watchId = navigator.geolocation.watchPosition(pos => {
-    if(watchId == null || Date.now() - lastSent < 25000) return;
-    pushLoc(pos).then(() => { if(currentTab === 'map') renderMarkers(); });
-  }, err => {
-    if(err.code === 1){ toast('Location permission was turned off.'); setSharing(false).then(syncShare); }
-  }, { enableHighAccuracy: true, maximumAge: 20000, timeout: 30000 });
+  if(watchId !== null) return;
+  if(!navigator.geolocation) return toast(t('locFail'));
+  let first = true;
+  watchId = navigator.geolocation.watchPosition(p => { lastPos = p; sendLoc(first); first = false; },
+    e => { toast(t('locFail')); if(e.code === 1) stopSharing().catch(fail); }, { enableHighAccuracy:true, maximumAge:20000, timeout:30000 });
+  beat = setInterval(() => sendLoc(true), 60000);
 }
-function stopWatch(){ if(watchId != null){ navigator.geolocation.clearWatch(watchId); watchId = null; } }
-async function setSharing(on){
-  if(on){
-    if(!navigator.geolocation){ toast("This browser can't share location."); return false; }
-    const got = await new Promise(res => navigator.geolocation.getCurrentPosition(
-      async pos => { await pushLoc(pos); res(true); },
-      err => { toast(err.code === 1 ? 'Allow location access to share it.' : "Couldn't get your location."); res(false); },
-      { enableHighAccuracy: true, timeout: 15000 }));
-    if(!got) return false;
-    const { error } = await sb.from('profiles').update({ share_location: true }).eq('id', me.id);
-    if(error){ toast("Couldn't save that."); return false; }
-    profiles[me.id].share_location = true; startWatch(); renderPeople(); renderMarkers(); return true;
+async function stopSharing(){
+  if(watchId !== null) navigator.geolocation.clearWatch(watchId);
+  clearInterval(beat); watchId = null; lastPos = null; lastSent = 0;
+  await saving; // a late upload must not bring the location back
+  await q(sb.from('locations').delete().eq('user_id', me.id));
+  store.set(shareKey(), null);
+  if(route().name === 'map') render(true);
+}
+async function mapView(){
+  spots = (await q(sb.from('locations').select('*'))).filter(s => profiles[s.user_id]);
+  const on = watchId !== null || spots.some(s => s.user_id === me.id);
+  const box = h('input', { type:'checkbox', checked:on, onchange: async () => {
+    try { if(box.checked){ if(confirm(t('locAsk'))){ store.set(shareKey(), '1'); startWatch(); } else box.checked = false; } else await stopSharing(); }
+    catch(e){ box.checked = true; fail(e); }
+  } });
+  return [h('div', { className:'bar' }, h('label', { className:'switch' }, h('span', {}, t('shareLoc'), h('br'), h('small', { className:'mut' }, t('locNote'))), box, h('span', { className:'tg' }))),
+    window.L ? mapDiv : empty(t('noMap')),
+    h('div', { className:'people' }, spots.map(s => h('button', { type:'button', className:'person', onclick:() => map?.flyTo([s.lat, s.lng], 15) },
+      av(s.user_id), h('span', { className:'pn' }, h('b', {}, s.user_id === me.id ? t('you') : nameOf(s.user_id)), h('small', {}, when(s.updated_at))))))];
+}
+function showMap(){
+  if(!window.L) return;
+  if(!map){
+    map = L.map(mapDiv, { zoomControl:false }).setView([22.5, 80], 4);
+    L.control.zoom({ position:'bottomright' }).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(map);
+    markers = L.layerGroup().addTo(map);
   }
-  stopWatch();
-  const off = { share_location: false, lat: null, lng: null, location_updated_at: null };
-  const { error } = await sb.from('profiles').update(off).eq('id', me.id);
-  if(error){ toast("Couldn't save that."); return false; }
-  Object.assign(profiles[me.id], off); renderPeople(); renderMarkers(); return true;
+  map.invalidateSize(); markers.clearLayers();
+  spots.forEach(s => {
+    const c = col(profiles[s.user_id].color); const pin = h('div', { className:'pin' }, ini(nameOf(s.user_id)));
+    pin.style.backgroundColor = c; pin.style.setProperty('--pc', c); pin.style.color = '#12103a';
+    L.marker([s.lat, s.lng], { icon:L.divIcon({ className:'', html:pin, iconSize:[38,38], iconAnchor:[19,19] }) })
+      .bindPopup(h('b', {}, nameOf(s.user_id))).addTo(markers);
+  });
+  if(spots.length && !fitted){ map.fitBounds(spots.map(s => [s.lat, s.lng]), { padding:[50,50], maxZoom:15 }); fitted = true; }
 }
-['#shareMap', '#shareMe'].forEach(sel => {
-  $(sel).onchange = async e => { const on = e.target.checked; const ok = await setSharing(on); if(!ok) e.target.checked = !on; syncShare(); };
-});
 
 // ---------- plans ----------
-async function loadPlans(){
-  const [a, b, c, d] = await Promise.all([
-    sb.from('plans').select('*').order('created_at', { ascending: false }).limit(50),
-    sb.from('plan_options').select('*').order('option_time'),
-    sb.from('plan_votes').select('*'),
-    sb.from('plan_rsvps').select('*')
-  ]);
-  if(a.error){ toast("Couldn't load plans."); return; }
-  plans = a.data || []; opts = b.data || []; votes = c.data || []; rsvps = d.data || [];
-  renderPlans();
-}
-function schedulePlans(){ clearTimeout(planTimer); planTimer = setTimeout(loadPlans, 400); }
-function renderPlans(){
-  const box = $('#planList');
-  if(!plans.length){ box.innerHTML = '<p class="empty" style="margin:0">No plans yet. Tap New plan to start one.</p>'; return; }
-  const labels = { going: 'Going', maybe: 'Maybe', no: "Can't go" };
-  box.innerHTML = plans.map((p, idx) => {
-    const o = opts.filter(x => x.plan_id === p.id);
-    const r = rsvps.filter(x => x.plan_id === p.id);
-    const mine = r.find(x => x.user_id === me.id)?.status;
-    const optHtml = o.map(x => {
-      const ov = votes.filter(v => v.option_id === x.id);
-      const iv = ov.some(v => v.user_id === me.id);
-      return `<div class="opt"><div><b>${esc(fmtPlan(x.option_time))}</b>
-        <span class="mut">${ov.length ? esc(ov.map(v => nameOf(v.user_id)).join(', ')) : 'No votes yet'}</span></div>
-        <button class="vote ${iv ? 'on' : ''}" data-act="vote" data-opt="${esc(x.id)}">${ov.length} ${ov.length === 1 ? 'vote' : 'votes'}</button></div>`;
-    }).join('');
-    const rsBtns = ['going', 'maybe', 'no'].map(st =>
-      `<button class="rs ${mine === st ? 'on' : ''}" data-act="rsvp" data-plan="${esc(p.id)}" data-st="${st}">${labels[st]} (${r.filter(x => x.status === st).length})</button>`).join('');
-    const sum = ['going', 'maybe', 'no'].map(st => {
-      const n = r.filter(x => x.status === st).map(x => nameOf(x.user_id));
-      return n.length ? `${labels[st]}: ${esc(n.join(', '))}` : '';
-    }).filter(Boolean).join(' · ');
-    return `<article class="plan stk" style="--c:${HEADS[idx % HEADS.length]};--d:${Math.min(idx, 8) * 80}ms">
-      <div class="phead"><h3>${esc(p.title)}</h3><div class="pmeta">${p.place ? esc(p.place) + ' · ' : ''}by ${esc(nameOf(p.created_by))}</div></div>
-      <div class="pbody">
-        ${p.details ? `<p class="pdet">${esc(p.details)}</p>` : ''}
-        ${optHtml}
-        <div class="rsrow">${rsBtns}</div>
-        ${sum ? `<div class="mut" style="margin-top:8px">${sum}</div>` : ''}
-        ${p.created_by === me.id ? `<button class="del" data-act="delplan" data-plan="${esc(p.id)}">Delete plan</button>` : ''}
-      </div></article>`;
-  }).join('');
-}
-$('#planList').onclick = async e => {
-  const b = e.target.closest('button[data-act]'); if(!b) return;
-  const act = b.dataset.act; let err = null;
-  if(act === 'vote'){
-    const opt = b.dataset.opt; const has = votes.some(v => v.option_id === opt && v.user_id === me.id);
-    const res = has ? await sb.from('plan_votes').delete().eq('option_id', opt).eq('user_id', me.id)
-                    : await sb.from('plan_votes').insert({ option_id: opt, user_id: me.id });
-    err = res.error;
-  } else if(act === 'rsvp'){
-    const plan = b.dataset.plan, st = b.dataset.st;
-    const cur = rsvps.find(x => x.plan_id === plan && x.user_id === me.id)?.status;
-    const res = cur === st ? await sb.from('plan_rsvps').delete().eq('plan_id', plan).eq('user_id', me.id)
-                           : await sb.from('plan_rsvps').upsert({ plan_id: plan, user_id: me.id, status: st }, { onConflict: 'plan_id,user_id' });
-    err = res.error;
-  } else if(act === 'delplan'){
-    if(!confirm('Delete this plan?')) return;
-    err = (await sb.from('plans').delete().eq('id', b.dataset.plan)).error;
-    if(!err) toast('Plan deleted');
-  }
-  if(err) toast("That didn't work. Try again.");
-  loadPlans();
-};
-$('#newPlanBtn').onclick = () => { $('#planForm').hidden = !$('#planForm').hidden; };
-$('#plCancel').onclick = () => { $('#planForm').hidden = true; };
-$('#addDate').onclick = () => {
-  if($$('#dateInputs input').length >= 6){ toast('You can add up to 6 times.'); return; }
-  const i = document.createElement('input'); i.type = 'datetime-local'; $('#dateInputs').appendChild(i);
-};
-$('#planForm').onsubmit = e => {
-  e.preventDefault();
-  busy($('#plSave'), async () => {
-    const title = $('#plTitle').value.trim(); if(!title) return;
-    const dates = $$('#dateInputs input').map(i => i.value).filter(Boolean);
-    const { data: pl, error } = await sb.from('plans').insert({
-      created_by: me.id, title, place: $('#plPlace').value.trim() || null, details: $('#plDetails').value.trim() || null
-    }).select().single();
-    if(error){ toast("Couldn't create the plan."); return; }
-    if(dates.length){
-      const r = await sb.from('plan_options').insert(dates.map(v => ({ plan_id: pl.id, option_time: new Date(v).toISOString() })));
-      if(r.error) toast("The plan was created, but the times didn't save.");
-    }
-    $('#planForm').reset(); $('#dateInputs').innerHTML = '<input type="datetime-local">'; $('#planForm').hidden = true;
-    toast('Plan created'); loadPlans();
+async function plansView(){
+  const [plans, opts, votes, rsvps] = await Promise.all([
+    q(sb.from('plans').select('*').order('created_at', { ascending:false }).limit(50)),
+    q(sb.from('plan_options').select('*').order('option_time')), q(sb.from('plan_votes').select('*')), q(sb.from('plan_rsvps').select('*'))]);
+  const title = h('input', { placeholder:t('planTitle'), maxLength:120, 'data-k':'pt' });
+  const place = h('input', { placeholder:t('where'), maxLength:120, 'data-k':'pp' });
+  const details = h('textarea', { placeholder:t('details'), maxLength:1000, 'data-k':'pd' });
+  const dates = h('div', {}, h('input', { type:'datetime-local' }));
+  const form = h('details', { className:'box stk' }, h('summary', {}, '➕ ' + t('newPlan')), title, place, details, mut(t('when')), dates,
+    btn(t('addTime'), () => { if(dates.children.length < 6) dates.append(h('input', { type:'datetime-local' })); }, 'btn small ghost'), ' ',
+    btn(t('create'), async b => {
+      if(!title.value.trim()) return;
+      const times = [...dates.children].map(i => i.value).filter(Boolean);
+      const pl = await q(sb.from('plans').insert({ created_by:me.id, title:title.value.trim(), place:place.value.trim() || null, details:details.value.trim() || null }).select().single());
+      if(times.length) await q(sb.from('plan_options').insert(times.map(v => ({ plan_id:pl.id, option_time:new Date(v).toISOString() }))));
+      burst(b, '🎉'); render();
+    }));
+  const list = plans.filter(p => !blocks.has(p.created_by)).map((p, i) => {
+    const r = rsvps.filter(x => x.plan_id === p.id), mine = r.find(x => x.user_id === me.id)?.status;
+    const head = h('div', { className:'phead' }, h('h3', {}, p.title), h('div', { className:'pmeta' }, (p.place ? p.place + ' · ' : '') + nameOf(p.created_by)));
+    head.style.setProperty('--c', HEADS[i % HEADS.length]);
+    return h('article', { className:'plan stk' }, head, h('div', { className:'pbody' },
+      p.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')), p.details && h('p', { className:'pdet' }, p.details),
+      opts.filter(o => o.plan_id === p.id).map(o => {
+        const v = votes.filter(x => x.option_id === o.id), iv = v.some(x => x.user_id === me.id);
+        return h('div', { className:'opt' }, h('div', {}, h('b', {}, when(o.option_time)), mut(v.map(x => nameOf(x.user_id)).join(', '))),
+          btn(`${v.length} ${t('votes')}`, async () => { await q(iv ? sb.from('plan_votes').delete().match({ option_id:o.id, user_id:me.id }) : sb.from('plan_votes').insert({ option_id:o.id, user_id:me.id })); render(true); }, 'vote' + (iv ? ' on' : '')));
+      }),
+      h('div', { className:'rsrow' }, ['going','maybe','no'].map(st => {
+        const el = btn(`${t(st)} (${r.filter(x => x.status === st).length})`, async b => {
+          if(mine !== st && st === 'going') burst(b, '🎉');
+          await q(mine === st ? sb.from('plan_rsvps').delete().match({ plan_id:p.id, user_id:me.id }) : sb.from('plan_rsvps').upsert({ plan_id:p.id, user_id:me.id, status:st }, { onConflict:'plan_id,user_id' })); render(true);
+        }, 'rs' + (mine === st ? ' on' : '')); el.dataset.st = st; return el;
+      })),
+      ['going','maybe','no'].map(st => { const n = r.filter(x => x.status === st).map(x => nameOf(x.user_id)); return n.length ? mut(t(st) + ': ' + n.join(', ')) : null; }),
+      itemAction('plan', p.id, p.created_by, 'plans')));
   });
-};
-
-// ---------- realtime ----------
-function subscribe(){
-  unsubscribe();
-  channel = sb.channel('hub')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => addMsg(p.new))
-    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => { msgs = msgs.filter(m => m.id !== p.old.id); renderMsgs(); })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, onProfile)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => loadPhotos())
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'plans' }, schedulePlans)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'plan_options' }, schedulePlans)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'plan_votes' }, schedulePlans)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'plan_rsvps' }, schedulePlans)
-    .subscribe();
+  return [scroll(form, list.length ? list : empty(t('none')))];
 }
-function unsubscribe(){ if(channel){ sb.removeChannel(channel); channel = null; } }
 
-document.addEventListener('visibilitychange', () => {
-  if(document.hidden || !me || $('#app').hidden) return;
-  loadMessages(); loadProfiles().then(() => { renderPeople(); renderMarkers(); }); loadPlans();
-});
+// ---------- settings ----------
+async function settingsView(){
+  const p = profiles[me.id];
+  const pick = h('select', { onchange:e => { lang = e.target.value; store.set('lang', lang); applyLang(); render(); } },
+    [['en','English'],['bn','বাংলা'],['hi','हिन्दी']].map(([v,n]) => h('option', { value:v, selected:v === lang }, n)));
+  const file = h('input', { type:'file', accept:'image/*' });
+  async function setAvatar(path){
+    const old = profiles[me.id].avatar_path;
+    await q(sb.from('profiles').update({ avatar_path:path }).eq('id', me.id));
+    if(old) await sb.storage.from('photos').remove([old]);
+    toast(t('saved')); render();
+  }
+  file.onchange = async () => { if(!file.files[0]) return; let path; try { path = await upload(file.files[0], 'avatar-', 512); await setAvatar(path); } catch(e){ if(path) await sb.storage.from('photos').remove([path]); fail(e); } };
+  const name = h('input', { value:p.name, maxLength:30, 'data-k':'sn' });
+  const bio = h('textarea', { value:p.bio || '', maxLength:160, placeholder:t('bio'), 'data-k':'sb' });
+  const sws = h('div', { className:'sws' }, COLORS.map(c => { const b = btn('', async () => { await q(sb.from('profiles').update({ color:c }).eq('id', me.id)); sws.querySelectorAll('.swc').forEach(x => x.classList.toggle('on', x === b)); profiles[me.id].color = c; }, 'swc' + (c === p.color ? ' on' : '')); b.style.backgroundColor = c; b.setAttribute('aria-label', c); return b; }));
+  const pass = h('input', { type:'password', minLength:6, placeholder:t('newPass'), autocomplete:'new-password' });
+  const blocked = [...blocks].filter(id => profiles[id]);
+  let reports = [];
+  if(admin()){
+    const rows = await q(sb.from('reports').select('*').order('created_at', { ascending:false }).limit(100));
+    reports = [sec(t('reports')), rows.length ? rows.map(r => {
+      const act = (label, hide) => btn(label, async () => { await q(sb.rpc('moderate', { p_report:r.id, p_hide:hide })); render(); });
+      return card(h('b', {}, `${r.kind} · ${nameOf(r.owner)} · ${t(r.status)}`), h('p', {}, r.snapshot), mut(`⚑ ${nameOf(r.reporter)}: ${r.reason}`),
+        h('div', { className:'row' }, r.status !== 'hidden' && act(t('hide'), true), r.status === 'hidden' && act(t('restore'), false), r.status === 'open' && act(t('dismiss'), false)));
+    }) : empty(t('none'))];
+  }
+  return [scroll(sec(t('settings')),
+    card(h('div', { className:'lab' }, '🌐 ' + t('language')), pick),
+    card(h('div', { className:'lab' }, t('photo')), h('div', { className:'row' }, av(me.id, true), p.avatar_path && btn(t('removePhoto'), () => setAvatar(null), 'btn small ghost')), h('div', { className:'lab' }, t('choosePhoto')), file),
+    card(h('div', { className:'lab' }, t('yourName')), name, bio, btn(t('save'), async () => { if(!name.value.trim()) return; await q(sb.from('profiles').update({ name:name.value.trim(), bio:bio.value.trim() }).eq('id', me.id)); toast(t('saved')); render(true); }), h('div', { className:'lab' }, t('color')), sws),
+    card(h('div', { className:'lab' }, me.email || ''), pass, btn(t('changePass'), async () => { if(pass.value.length < 6) return toast(t('password6')); await q(sb.auth.updateUser({ password:pass.value })); pass.value = ''; toast(t('saved')); })),
+    blocked.length > 0 && card(h('div', { className:'lab' }, t('blocked')), blocked.map(id => h('div', { className:'row' }, h('b', { className:'grow' }, nameOf(id)), friendButtons(id)))),
+    reports, btn(t('signout'), logout, 'btn ghost'))];
+}
 
-// ---------- start ----------
-authTab('login');
-(async function boot(){
+// ---------- router (the phone's Back button works) ----------
+function route(){ const [name, arg] = location.hash.slice(1).split('/'); return ['home','chats','chat','map','plans','me','user','people','settings'].includes(name) ? { name, arg } : { name:'home' }; }
+function go(name, arg){ const hash = '#' + name + (arg ? '/' + arg : ''); if(location.hash === hash) render(); else location.hash = hash; }
+const VIEWS = { home:async () => [scroll(composer(), await postList())], chats:chatsView, chat:chatView, map:mapView, plans:plansView,
+  me:() => profileView(me.id), user:profileView, people:peopleView, settings:settingsView };
+async function render(quiet){
+  if(!me || $('#app').hidden) return;
+  const mine = ++token, r = route(), key = location.hash, view = $('#view');
+  const tab = { chat:'chats', user:'', people:'', settings:'me' }[r.name] ?? r.name;
+  $('#nav').classList.toggle('noind', !tab); $('#nav').style.setProperty('--i', Math.max(0, NAV.indexOf(tab)));
+  $$('#nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  if(!quiet || drawn !== key) view.replaceChildren(empty(t('loading')));
   try {
-    const { data: { session } } = await sb.auth.getSession();
-    if(session) await afterLogin(session.user); else show('auth');
-  } catch(err){ show('auth'); toast("Couldn't reach the server. Check your connection."); }
+    await loadBase();
+    const nodes = await VIEWS[r.name](r.arg);
+    if(mine !== token) return;
+    const same = quiet && drawn === key, top = view.querySelector('.scroll')?.scrollTop || 0;
+    // keep what the person has typed during a refresh
+    const typed = same ? [...view.querySelectorAll('[data-k]')].map(el => [el.dataset.k, el.value, el === document.activeElement]) : [];
+    view.replaceChildren(...nodes.flat().filter(Boolean)); drawn = key;
+    typed.forEach(([k, v, focus]) => { const el = view.querySelector(`[data-k="${k}"]`); if(el){ el.value = v; if(focus) el.focus(); } });
+    view.classList.remove('stag'); if(!same){ void view.offsetWidth; view.classList.add('stag'); clearTimeout(render.st); render.st = setTimeout(() => view.classList.remove('stag'), 1200); }
+    if(same && view.querySelector('.scroll')) view.querySelector('.scroll').scrollTop = top;
+    if(r.name === 'map') showMap();
+    const box = $('#msgs'); if(box) box.scrollTop = box.scrollHeight;
+  } catch(e){ console.error(e); if(mine === token){ drawn = ''; view.replaceChildren(scroll(empty(t('failed') + ' ' + (e.message || '')), btn('↻', () => render(), 'btn'))); } }
+}
+window.addEventListener('hashchange', () => render());
+$('#nav').onclick = e => { const b = e.target.closest('button'); if(b) go(b.dataset.tab); };
+$('#peopleBtn').onclick = () => go('people');
+$('#setBtn').onclick = () => go('settings');
+
+// ---------- live updates ----------
+let softTimer;
+function typing(){ return [...$('#view').querySelectorAll('input,textarea,details')].some(el => el.tagName === 'DETAILS' ? el.open : el.type === 'checkbox' ? false : el.type === 'datetime-local' ? false : el === document.activeElement || (el.value && route().name !== 'settings')) || route().name === 'settings'; }
+function soft(){ clearTimeout(softTimer); softTimer = setTimeout(() => { if(!me) return; if(route().name === 'chat') syncChat().catch(console.error); else if(!typing()) render(true); else loadBase().catch(console.error); }, 700); }
+function subscribe(){
+  channel = sb.channel('hub');
+  ['messages','chat_messages','chat_members','profiles','friendships','photos','post_likes','comments','locations','plans','plan_options','plan_votes','plan_rsvps','reports']
+    .forEach(table => channel.on('postgres_changes', { event:'*', schema:'public', table }, soft));
+  channel.subscribe();
+}
+setInterval(() => { if(me && !document.hidden && ['chat','map'].includes(route().name)) soft(); }, 20000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden && me){ sendLoc(true); soft(); } });
+
+// ---------- sign in / register ----------
+function applyLang(){
+  document.documentElement.lang = lang;
+  $$('[data-i]').forEach(el => el.textContent = t(el.dataset.i));
+  $$('[data-ph]').forEach(el => el.placeholder = t(el.dataset.ph));
+  $('#peopleBtn').title = t('people'); $('#setBtn').title = t('settings');
+}
+function hideSplash(){ $('#splash').classList.add('gone'); }
+function splashError(msg){ $('#splash').classList.remove('gone'); $('#splash').querySelectorAll('.ball,.ground').forEach(x => x.hidden = true); $('#splashMsg').textContent = msg; $('#splashMsg').hidden = false; $('#splashRetry').hidden = false; }
+function show(w){ $('#auth').hidden = w !== 'auth'; $('#gate').hidden = w !== 'gate'; $('#app').hidden = w !== 'app'; hideSplash(); }
+function authTab(w){ $('#loginForm').hidden = w !== 'login'; $('#signupForm').hidden = w !== 'signup'; $('#seg').style.setProperty('--i', w === 'login' ? 0 : 1); $('#authMsg').textContent = ''; }
+$('#tabLogin').onclick = () => authTab('login');
+$('#tabSignup').onclick = () => authTab('signup');
+$('#wm').onclick = e => { const s = e.target.closest('span'); if(s) burst(s, '🪐'); };
+function submit(form, button, fn){
+  $(form).onsubmit = async e => { e.preventDefault(); const b = $(button); b.disabled = true; $('#authMsg').textContent = ''; $('#gateErr').textContent = '';
+    try { await fn(); } catch(err){ const m = /Invalid login/i.test(err.message) ? t('badLogin') : err.message || t('netErr'); $(form === '#gateForm' ? '#gateErr' : '#authMsg').textContent = m; }
+    b.disabled = false; };
+}
+submit('#loginForm', '#liBtn', async () => { const d = await q(sb.auth.signInWithPassword({ email:$('#liEmail').value.trim(), password:$('#liPass').value })); await enter(d.user); });
+submit('#signupForm', '#suBtn', async () => {
+  const d = await q(sb.auth.signUp({ email:$('#suEmail').value.trim(), password:$('#suPass').value, options:{ data:{ name:$('#suName').value.trim() }, emailRedirectTo:location.origin + location.pathname } }));
+  if(!d.session){ $('#authMsg').textContent = t('checkMail'); return; }
+  await sb.rpc('join_with_code', { p_code:$('#suCode').value.trim() }); await enter(d.user);
+});
+submit('#gateForm', '#gateBtn', async () => { const ok = await q(sb.rpc('join_with_code', { p_code:$('#gateCode').value.trim() })); if(ok !== true){ $('#gateErr').textContent = t('badCode'); return; } await enter(gateUser); });
+let gateUser = null;
+async function logout(){
+  if(me) await stopSharing(); // if this fails you stay signed in, so the location is never left behind
+  await sb.auth.signOut(); location.hash = ''; location.reload();
+}
+$('#gateLogout').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+
+async function enter(user){
+  const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  // a network error must not sign the user out
+  if(error || !data) return splashError(t('netErr') + (error ? ' ' + error.message : ''));
+  if(!data.approved){ gateUser = user; $('#gateName').textContent = data.name; show('gate'); return; }
+  me = user;
+  try { await loadBase(); } catch(e){ me = null; return splashError(t('dbErr') + ' ' + e.message); }
+  show('app'); subscribe(); if(store.get(shareKey())) startWatch(); render();
+}
+applyLang(); authTab('login');
+(async function boot(){
+  if(!window.supabase) return splashError(t('netErr'));
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  sb.auth.onAuthStateChange(ev => { if(ev === 'SIGNED_OUT' && me){ me = null; setTimeout(() => location.reload(), 300); } });
+  try { const { data:{ session }, error } = await sb.auth.getSession(); if(error) throw error; if(session) await enter(session.user); else show('auth'); }
+  catch(e){ splashError(t('netErr')); }
 })();
 </script>
 </body>
