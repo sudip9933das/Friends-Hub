@@ -274,6 +274,12 @@ audio{width:230px;max-width:100%}
 #callBox .local[autoplay]{display:block;width:110px;max-height:150px;object-fit:cover;border:var(--bw) solid var(--lime);border-radius:14px;transform:scaleX(-1)}
 #toast{z-index:2600}
 .hbtns{gap:8px}
+
+.createbar{display:flex;gap:10px;margin:0 2px 14px}
+.createbar .btn{font-size:13px;padding:7px 12px;box-shadow:3px 3px 0 var(--ink)}
+#sheet{position:fixed;inset:0;z-index:1400;background:rgba(18,16,58,.65);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s both}
+#sheet>.box{width:100%;max-width:560px;max-height:90dvh;overflow-y:auto;margin:0;border-radius:24px 24px 0 0;animation:rise .35s var(--spring) both}
+.preview{display:block;width:100%;max-height:38dvh;object-fit:contain;border-radius:12px;background:var(--lilac);margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -517,17 +523,26 @@ async function storyBar(){
   const old = all.filter(s => s.user_id === me.id && new Date(s.created_at) < dayAgo);
   if(old.length){ await sb.storage.from('photos').remove(old.map(s => s.path)); await sb.from('stories').delete().in('id', old.map(s => s.id)); }
   const live = all.filter(s => new Date(s.created_at) >= dayAgo && (s.user_id === me.id || shipWith(s.user_id)?.status === 'accepted'));
-  const cap = h('input', { placeholder:t('storyCap'), maxLength:200, 'data-k':'story' });
-  const file = h('input', { type:'file', accept:'image/*', hidden:true });
-  file.onchange = async () => {
-    if(!file.files[0]) return; let path;
-    try { path = await upload(file.files[0], 'story-'); await q(sb.from('stories').insert({ user_id:me.id, path, caption:cap.value.trim() || null })); cap.value = ''; toast('✨'); render(true); }
-    catch(e){ if(path) await sb.storage.from('photos').remove([path]); fail(e); }
-  };
   const ids = [...new Set(live.map(s => s.user_id))];
   return h('div', {}, h('div', { className:'stories' },
-    h('button', { type:'button', className:'story add', onclick:() => file.click() }, h('span', { className:'plus' }, '➕'), h('small', {}, t('addStory'))),
-    ids.map(id => h('button', { type:'button', className:'story', onclick:() => openStory(live.filter(s => s.user_id === id), 0) }, av(id), h('small', {}, id === me.id ? t('you') : nameOf(id))))), file, cap);
+    h('button', { type:'button', className:'story add', onclick:pickStory }, h('span', { className:'plus' }, '➕'), h('small', {}, t('addStory'))),
+    ids.map(id => h('button', { type:'button', className:'story', onclick:() => openStory(live.filter(s => s.user_id === id), 0) }, av(id), h('small', {}, id === me.id ? t('you') : nameOf(id))))));
+}
+function pickStory(){
+  const file = h('input', { type:'file', accept:'image/*' });
+  file.onchange = () => { if(file.files[0]) storySheet(file.files[0]); };
+  file.click();
+}
+function storySheet(f){
+  const url = URL.createObjectURL(f);
+  const cap = h('input', { placeholder:t('storyCap'), maxLength:200 });
+  openSheet(t('addStory'), h('img', { className:'preview', src:url, alt:'' }), cap, btn(t('post'), async b => {
+    const path = await upload(f, 'story-');
+    try { await q(sb.from('stories').insert({ user_id:me.id, path, caption:cap.value.trim() || null })); }
+    catch(e){ await sb.storage.from('photos').remove([path]); throw e; }
+    burst(b, '✨'); closeSheet(); render(true);
+  }, 'btn'));
+  sheetClean = () => URL.revokeObjectURL(url);
 }
 let storyTimer;
 function closeStory(){ clearTimeout(storyTimer); $('#storyBox')?.remove(); }
@@ -547,14 +562,15 @@ async function openStory(list, i){
 }
 
 // ---------- polls ----------
-function pollForm(){
-  const question = h('input', { placeholder:t('question'), maxLength:200, 'data-k':'pq' });
-  const opts = [1,2,3,4].map(n => h('input', { placeholder:t('option') + ' ' + n, maxLength:60, 'data-k':'po' + n }));
-  return h('details', { className:'box stk' }, h('summary', {}, '📊 ' + t('newPoll')), question, opts, btn(t('create'), async b => {
+function pollSheet(){
+  const question = h('input', { placeholder:t('question'), maxLength:200 });
+  const opts = [1,2,3,4].map(n => h('input', { placeholder:t('option') + ' ' + n, maxLength:60 }));
+  openSheet('📊 ' + t('newPoll'), question, opts, btn(t('create'), async b => {
     const options = opts.map(o => o.value.trim()).filter(Boolean);
     if(!question.value.trim() || options.length < 2) return toast(t('needPoll'));
-    await q(sb.from('polls').insert({ user_id:me.id, question:question.value.trim(), options })); burst(b, '📊'); render();
-  }));
+    await q(sb.from('polls').insert({ user_id:me.id, question:question.value.trim(), options })); burst(b, '📊'); closeSheet(); render(true);
+  }, 'btn'));
+  question.focus();
 }
 function pollCard(p){
   const votes = (p.poll_votes || []).filter(v => !blocks.has(v.user_id)), mine = votes.find(v => v.user_id === me.id)?.choice;
@@ -594,17 +610,26 @@ async function alertsView(){
 }
 
 // ---------- feed + posts ----------
-function composer(){
-  const text = h('textarea', { placeholder:t('whatsNew'), maxLength:2000, 'data-k':'post' });
+let sheetClean = null;
+function closeSheet(){ $('#sheet')?.remove(); sheetClean?.(); sheetClean = null; }
+function openSheet(title, ...content){
+  closeSheet();
+  document.body.append(h('div', { id:'sheet', onclick:e => { if(e.target.id === 'sheet') closeSheet(); } },
+    h('div', { className:'box stk' }, h('div', { className:'row' }, h('h2', { className:'sec grow' }, title), btn('✕', closeSheet, 'btn small ghost')), content)));
+}
+function postSheet(){
+  const text = h('textarea', { placeholder:t('whatsNew'), maxLength:2000 });
   const file = h('input', { type:'file', accept:'image/*' });
-  return card(text, file, btn(t('post'), async b => {
+  openSheet(t('post'), text, file, btn(t('post'), async b => {
     const caption = text.value.trim(), f = file.files[0]; if(!caption && !f) return;
     const path = f ? await upload(f, '') : null;
     try { await q(sb.from('photos').insert({ user_id:me.id, path, caption:caption || null })); }
     catch(e){ if(path) await sb.storage.from('photos').remove([path]); throw e; }
-    burst(b, '✨'); text.value = ''; file.value = ''; render(true);
+    burst(b, '✨'); closeSheet(); render(true);
   }, 'btn'));
+  text.focus();
 }
+const createBar = () => h('div', { className:'createbar' }, btn('✏️ ' + t('post'), postSheet), btn('📊 ' + t('newPoll'), pollSheet, 'btn small ghost'));
 async function postList(userId){
   let query = sb.from('photos').select('*, post_likes(user_id), comments(*)').order('created_at', { ascending:false }).limit(40);
   const ids = userId ? [userId] : [me.id, ...friendIds()];
@@ -656,7 +681,7 @@ async function profileView(id){
     !mine && h('div', { className:'row' }, reportBtn('profile', id), !blocks.has(id) && btn(t('block'), async () => {
       if(!confirm(t('sure'))) return; await q(sb.from('blocks').insert({ blocker:me.id, blocked:id })); render(); }, 'link')));
   const posts = mine || friend || admin() ? await postList(id) : [empty(t('friendsOnly'))];
-  return [scroll(head, mine && composer(), mine && pollForm(), posts)];
+  return [scroll(head, mine && createBar(), posts)];
 }
 async function peopleView(){
   const list = h('div');
@@ -1036,7 +1061,7 @@ async function settingsView(){
 // ---------- router (the phone's Back button works) ----------
 function route(){ const [name, arg] = location.hash.slice(1).split('/'); return ['home','chats','chat','map','plans','me','user','people','settings','alerts'].includes(name) ? { name, arg } : { name:'home' }; }
 function go(name, arg){ const hash = '#' + name + (arg ? '/' + arg : ''); if(location.hash === hash) render(); else location.hash = hash; }
-const VIEWS = { home:async () => [scroll(await storyBar(), await birthdayBanner(), composer(), pollForm(), await postList())], alerts:alertsView, chats:chatsView, chat:chatView, map:mapView, plans:plansView,
+const VIEWS = { home:async () => [scroll(await storyBar(), createBar(), await birthdayBanner(), await postList())], alerts:alertsView, chats:chatsView, chat:chatView, map:mapView, plans:plansView,
   me:() => profileView(me.id), user:profileView, people:peopleView, settings:settingsView };
 async function render(quiet){
   if(!me || $('#app').hidden) return;
@@ -1060,7 +1085,7 @@ async function render(quiet){
     const box = $('#msgs'); if(box) box.scrollTop = box.scrollHeight;
   } catch(e){ console.error(e); if(mine === token){ drawn = ''; view.replaceChildren(scroll(empty(t('failed') + ' ' + (e.message || '')), btn('↻', () => render(), 'btn'))); } }
 }
-window.addEventListener('hashchange', () => { stopRecording(true); closeStory(); render(); });
+window.addEventListener('hashchange', () => { stopRecording(true); closeStory(); closeSheet(); render(); });
 $('#nav').onclick = e => { const b = e.target.closest('button'); if(b) go(b.dataset.tab); };
 $('#peopleBtn').onclick = () => go('people');
 $('#setBtn').onclick = () => go('settings');
