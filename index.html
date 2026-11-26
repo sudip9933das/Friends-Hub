@@ -241,6 +241,39 @@ nav.noind .ind{opacity:0}
 .check{display:flex;gap:10px;align-items:center;padding:6px 0;font-weight:700}
 .check input{width:20px;height:20px;margin:0}
 #splash p{max-width:80%;text-align:center;font-weight:700}
+
+/* ---------- v3 ---------- */
+.count{background:var(--pink);color:var(--ink);border:2px solid var(--ink);border-radius:99px;font:800 11px var(--body);padding:0 6px;min-width:22px;text-align:center}
+nav .count{position:absolute;top:0;right:8px}
+.avw{position:relative;flex:none;display:inline-flex}.dot{position:absolute;right:0;bottom:0;width:12px;height:12px;border-radius:50%;background:#22c55e;border:2px solid var(--ink)}
+.profile .avw{margin-bottom:8px}.profile .avw .av{margin:0}
+.box.new{background:var(--sun)}
+.reacts{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;white-space:normal}
+.picker{display:flex;flex-wrap:wrap;gap:5px;width:100%}
+.emo{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:99px;padding:2px 8px;font-size:13px}
+.emo.on{background:var(--sun)}
+.stories{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 10px}
+.story{flex:none;border:0;background:none;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;width:70px}
+.story .av,.story .plus{width:60px;height:60px;border:3px solid var(--lime);box-shadow:0 0 0 2px var(--ink);font-size:24px}
+.story .plus{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--paper)}
+.story small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.overlay{position:fixed;inset:0;z-index:1500;background:var(--ink);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;text-align:center}
+.overlay img{max-width:100%;max-height:66dvh;border-radius:14px}
+.strack{position:absolute;top:10px;left:14px;right:14px;height:5px;background:#ffffff44;border-radius:9px;overflow:hidden}
+.sbar{display:block;height:100%;background:var(--lime)}
+.pollopt{display:block;width:100%;text-align:left;margin-top:8px;padding:11px 14px;font:700 14px var(--body);color:var(--ink);border:2px solid var(--ink);border-radius:12px;background:linear-gradient(90deg,var(--lime) var(--p,0%),var(--lilac) var(--p,0%))}
+.pollopt.on{box-shadow:3px 3px 0 var(--pink)}
+.mimg{display:block;max-width:220px;width:100%;max-height:260px;object-fit:cover;border-radius:10px;cursor:pointer}
+audio{width:230px;max-width:100%}
+#msgForm{gap:7px;padding-left:10px;padding-right:10px}#msgForm input{min-width:0}#msgForm .btn{padding:9px 10px}
+.btn.rec{background:var(--pink);animation:fade .6s infinite alternate}
+#typing{min-height:18px;padding:0 16px;font-size:12px;font-weight:700;color:var(--lime)}
+#callBox video{display:none}
+#callBox.live>.av,#callBox.live>.avw,#callBox.live>h2{display:none}
+#callBox.live .remote{display:block;flex:1;min-height:0;width:100%;object-fit:contain}
+#callBox .local[autoplay]{display:block;width:110px;max-height:150px;object-fit:cover;border:var(--bw) solid var(--lime);border-radius:14px;transform:scaleX(-1)}
+#toast{z-index:2600}
+.hbtns{gap:8px}
 </style>
 </head>
 <body>
@@ -286,13 +319,13 @@ nav.noind .ind{opacity:0}
       <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="#ff4f9a" stroke="#12103a" stroke-width="2.4"/><ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="#12103a" stroke-width="2.4" transform="rotate(-25 16 16)"/><circle cx="28" cy="10" r="3" fill="#c6ff3d" stroke="#12103a" stroke-width="2"/></svg>
       <span>orbit</span>
     </div>
-    <div class="hbtns"><button id="peopleBtn" class="hbtn" type="button">👥<b id="reqCount" hidden></b></button><button id="setBtn" class="hbtn" type="button">⚙️</button></div>
+    <div class="hbtns"><button id="noteBtn" class="hbtn" type="button">🔔<b id="noteCount" hidden></b></button><button id="peopleBtn" class="hbtn" type="button">👥<b id="reqCount" hidden></b></button><button id="setBtn" class="hbtn" type="button">⚙️</button></div>
   </header>
   <main><section id="view" class="tab"></section></main>
   <nav id="nav">
     <i class="ind"></i>
     <button data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg><span data-i="home"></span></button>
-    <button data-tab="chats"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-i="chats"></span></button>
+    <button data-tab="chats"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-i="chats"></span><b id="chatCount" class="count" hidden></b></button>
     <button data-tab="map"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i="map"></span></button>
     <button data-tab="plans"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span data-i="plans"></span></button>
     <button data-tab="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span data-i="me"></span></button>
@@ -324,6 +357,16 @@ newPlan:['New plan','নতুন প্ল্যান','नया प्ला
 settings:['Settings','সেটিংস','सेटिंग्स'],language:['Language','ভাষা','भाषा'],photo:['Profile picture','প্রোফাইল ছবি','प्रोफ़ाइल फ़ोटो'],choosePhoto:['Choose picture','ছবি বাছো','फ़ोटो चुनें'],removePhoto:['Remove picture','ছবি সরাও','फ़ोटो हटाएँ'],bio:['About you','তোমার সম্পর্কে','आपके बारे में'],color:['Your color','তোমার রং','आपका रंग'],save:['Save','সেভ','सेव'],saved:['Saved','সেভ হয়েছে','सेव हो गया'],newPass:['New password (6+)','নতুন পাসওয়ার্ড (৬+)','नया पासवर्ड (6+)'],changePass:['Change password','পাসওয়ার্ড বদলাও','पासवर्ड बदलें'],edit:['Edit profile','প্রোফাইল বদলাও','प्रोफ़ाइल बदलें'],
 reports:['Reports (admin)','রিপোর্ট (অ্যাডমিন)','रिपोर्ट (एडमिन)'],hide:['Hide','লুকাও','छिपाएँ'],restore:['Restore','ফিরিয়ে আনো','वापस लाएँ'],dismiss:['Dismiss','বাতিল','खारिज'],open:['open','খোলা','खुली'],hidden:['hidden','লুকানো','छिपी'],dismissed:['dismissed','বাতিল','खारिज']
 };
+Object.assign(T, {
+alerts:['Notifications','নোটিফিকেশন','सूचनाएँ'],n_like:['liked your post','তোমার পোস্টে লাইক দিয়েছে','ने आपकी पोस्ट लाइक की'],n_comment:['commented on your post','তোমার পোস্টে মন্তব্য করেছে','ने आपकी पोस्ट पर टिप्पणी की'],n_react:['reacted to your post','তোমার পোস্টে রিঅ্যাক্ট করেছে','ने आपकी पोस्ट पर रिएक्ट किया'],n_request:['sent you a friend request','তোমাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে','ने फ़्रेंड रिक्वेस्ट भेजी'],n_accept:['accepted your request','তোমার অনুরোধ গ্রহণ করেছে','ने आपकी रिक्वेस्ट स्वीकार की'],
+online:['Online','অনলাইন','ऑनलाइन'],lastSeen:['Last seen','শেষ দেখা','आख़िरी बार'],isTyping:['is typing…','লিখছে…','लिख रहे हैं…'],showOnline:['Show my online status to friends','বন্ধুদের আমার অনলাইন স্ট্যাটাস দেখাও','दोस्तों को मेरा ऑनलाइन स्टेटस दिखाएँ'],
+addStory:['Your story','তোমার স্টোরি','आपकी स्टोरी'],storyCap:['Story caption (optional)','স্টোরির ক্যাপশন (ঐচ্ছিক)','स्टोरी कैप्शन (वैकल्पिक)'],
+newPoll:['New poll','নতুন পোল','नया पोल'],question:['Question','প্রশ্ন','सवाल'],option:['Option','অপশন','विकल्प'],needPoll:['Write a question and at least 2 options.','প্রশ্ন ও অন্তত ২টা অপশন লেখো।','सवाल और कम से कम 2 विकल्प लिखें।'],
+birthday:['Birthday','জন্মদিন','जन्मदिन'],bdayToday:['Birthday today','আজ জন্মদিন','आज जन्मदिन'],bdaySoon:['Birthday soon','শিগগিরই জন্মদিন','जन्मदिन जल्द'],wishYou:['Happy birthday','শুভ জন্মদিন','जन्मदिन मुबारक'],day:['Day','দিন','दिन'],month:['Month','মাস','महीना'],
+addPic:['Send photo','ছবি পাঠাও','फ़ोटो भेजें'],record:['Record voice','ভয়েস রেকর্ড','आवाज़ रिकॉर्ड करें'],stopSend:['Stop and send','থামিয়ে পাঠাও','रोककर भेजें'],noMic:['Microphone is not available.','মাইক্রোফোন পাওয়া যাচ্ছে না।','माइक्रोफ़ोन उपलब्ध नहीं।'],
+videoCall:['Video call','ভিডিও কল','वीडियो कॉल'],calling:['Calling…','কল যাচ্ছে…','कॉल जा रही है…'],incoming:['is calling you','তোমাকে কল করছে','आपको कॉल कर रहे हैं'],answer:['Answer','ধরো','उठाएँ'],hangup:['End','কাটো','काटें'],mic:['Mic','মাইক','माइक'],cam:['Camera','ক্যামেরা','कैमरा'],connecting:['Connecting…','সংযোগ হচ্ছে…','जुड़ रहा है…'],noCam:['Allow camera and microphone access.','ক্যামেরা ও মাইকের অনুমতি দাও।','कैमरा और माइक की अनुमति दें।'],noAnswer:['No answer.','কেউ ধরল না।','कोई जवाब नहीं।'],callFail:['Call could not connect on this network.','এই নেটওয়ার্কে কল সংযোগ হলো না।','इस नेटवर्क पर कॉल नहीं जुड़ी।']
+});
+const EMOJIS = ['👍','😂','🔥','😮','😢','❤️'];
 const store = {get:k=>{try{return localStorage.getItem(k)}catch{return null}}, set:(k,v)=>{try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}};
 const LANGS = {en:0,bn:1,hi:2};
 let lang = store.get('lang') in LANGS ? store.get('lang') : 'en';
@@ -368,6 +411,7 @@ function burst(el, emoji){
 
 let sb, me = null, profiles = {}, ships = [], blocks = new Set(), channel = null, token = 0, drawn = '';
 const urlCache = new Map();
+let online = {}, unread = {}, noteCount = 0;
 
 // ---------- data helpers ----------
 const col = c => /^#[0-9a-fA-F]{6}$/.test(c || '') ? c : '#8b87c9';
@@ -377,10 +421,10 @@ const admin = () => !!profiles[me?.id]?.is_admin;
 const other = r => r.requester === me.id ? r.addressee : r.requester;
 const shipWith = id => ships.find(r => other(r) === id);
 const friendIds = () => ships.filter(r => r.status === 'accepted').map(other);
-async function sign(paths){
+async function sign(paths, bucket = 'photos'){
   const need = [...new Set(paths.filter(p => p && !(urlCache.get(p)?.exp > Date.now())))];
   if(!need.length) return;
-  const { data } = await sb.storage.from('photos').createSignedUrls(need, 3600);
+  const { data } = await sb.storage.from(bucket).createSignedUrls(need, 3600);
   (data || []).forEach(x => { if(x.signedUrl) urlCache.set(x.path, { url:x.signedUrl, exp:Date.now() + 50*60000 }); });
 }
 const urlOf = p => urlCache.get(p)?.url;
@@ -391,12 +435,22 @@ async function loadBase(){
   profiles = Object.fromEntries(p.map(x => [x.id, x])); ships = f; blocks = new Set(b.map(x => x.blocked));
   await sign(p.map(x => x.avatar_path));
   const n = ships.filter(r => r.status === 'pending' && r.addressee === me.id && profiles[r.requester]).length;
-  $('#reqCount').textContent = n; $('#reqCount').hidden = !n;
+  badge('#reqCount', n);
+  await loadBadges();
 }
+function badge(sel, n){ const el = $(sel); if(!el) return; el.textContent = n > 99 ? '99+' : n; el.hidden = !n; }
+async function loadBadges(){
+  const [u, notes, pr] = await Promise.all([q(sb.rpc('unread_counts')), q(sb.from('notifications').select('id').eq('seen', false)), q(sb.rpc('friends_presence'))]);
+  unread = Object.fromEntries((u || []).map(x => [x.room, Number(x.n)]));
+  noteCount = (notes || []).length; online = Object.fromEntries((pr || []).map(x => [x.user_id, x]));
+  badge('#noteCount', noteCount); badge('#chatCount', Object.values(unread).reduce((a,b) => a + b, 0));
+}
+const seenText = id => online[id] ? (online[id].online ? '🟢 ' + t('online') : t('lastSeen') + ' ' + when(online[id].last_seen)) : '';
 function av(id, big){
   const p = profiles[id] || {}; const c = col(p.color);
   const el = h('span', { className:'av' + (big ? ' big' : '') }, ini(p.name), urlOf(p.avatar_path) && h('img', { src:urlOf(p.avatar_path), alt:'' }));
-  el.style.backgroundColor = c; el.style.color = '#12103a'; return el;
+  el.style.backgroundColor = c; el.style.color = '#12103a';
+  return online[id]?.online ? h('span', { className:'avw' }, el, h('i', { className:'dot' })) : el;
 }
 const who = (id, sub) => h('button', { type:'button', className:'who2 grow', onclick:() => go('user', id) }, av(id), h('span', {}, h('b', {}, nameOf(id)), sub && h('small', { className:'mut' }, sub)));
 
@@ -407,6 +461,7 @@ function itemAction(kind, id, owner, table){
     const rows = await q(sb.from(table).delete().eq('id', id).select());
     if(!rows.length) throw new Error('not deleted');
     if(rows[0].path) await sb.storage.from('photos').remove([rows[0].path]);
+    if(rows[0].media_path) await sb.storage.from('chatmedia').remove([rows[0].media_path]);
     render(true);
   }, 'link');
   return reportBtn(kind, id);
@@ -440,6 +495,104 @@ async function upload(file, prefix, max){
 function zoom(url){ $('#lbImg').src = url; $('#lightbox').hidden = false; }
 $('#lbClose').onclick = $('#lightbox').onclick = e => { if(e.target.id !== 'lbImg') $('#lightbox').hidden = true; };
 
+// ---------- reactions ----------
+function reactRow(kind, id, list, done){
+  const mine = list.find(r => r.user_id === me.id)?.emoji;
+  const counts = EMOJIS.map(e => [e, list.filter(r => r.emoji === e && !blocks.has(r.user_id)).length]).filter(x => x[1]);
+  const set = async e => {
+    await q(mine === e ? sb.from('reactions').delete().match({ kind, target:id, user_id:me.id })
+      : sb.from('reactions').upsert({ kind, target:id, user_id:me.id, emoji:e }, { onConflict:'kind,target,user_id' }));
+    await done();
+  };
+  const picker = h('div', { className:'picker', hidden:true }, EMOJIS.map(e => btn(e, async b => { if(mine !== e) burst(b, e); picker.hidden = true; await set(e); }, 'emo' + (mine === e ? ' on' : ''))));
+  return h('div', { className:'reacts', 'data-sig':JSON.stringify([counts, mine]) }, counts.map(([e,n]) => btn(e + ' ' + n, () => set(e), 'emo' + (mine === e ? ' on' : ''))),
+    btn('🙂+', () => { picker.hidden = !picker.hidden; }, 'emo'), picker);
+}
+const getReacts = async (kind, ids) => ids.length ? q(sb.from('reactions').select('*').eq('kind', kind).in('target', ids)) : [];
+
+// ---------- stories ----------
+async function storyBar(){
+  const all = await q(sb.from('stories').select('*').order('created_at'));
+  const dayAgo = Date.now() - 864e5;
+  const old = all.filter(s => s.user_id === me.id && new Date(s.created_at) < dayAgo);
+  if(old.length){ await sb.storage.from('photos').remove(old.map(s => s.path)); await sb.from('stories').delete().in('id', old.map(s => s.id)); }
+  const live = all.filter(s => new Date(s.created_at) >= dayAgo && (s.user_id === me.id || shipWith(s.user_id)?.status === 'accepted'));
+  const cap = h('input', { placeholder:t('storyCap'), maxLength:200, 'data-k':'story' });
+  const file = h('input', { type:'file', accept:'image/*', hidden:true });
+  file.onchange = async () => {
+    if(!file.files[0]) return; let path;
+    try { path = await upload(file.files[0], 'story-'); await q(sb.from('stories').insert({ user_id:me.id, path, caption:cap.value.trim() || null })); cap.value = ''; toast('✨'); render(true); }
+    catch(e){ if(path) await sb.storage.from('photos').remove([path]); fail(e); }
+  };
+  const ids = [...new Set(live.map(s => s.user_id))];
+  return h('div', {}, h('div', { className:'stories' },
+    h('button', { type:'button', className:'story add', onclick:() => file.click() }, h('span', { className:'plus' }, '➕'), h('small', {}, t('addStory'))),
+    ids.map(id => h('button', { type:'button', className:'story', onclick:() => openStory(live.filter(s => s.user_id === id), 0) }, av(id), h('small', {}, id === me.id ? t('you') : nameOf(id))))), file, cap);
+}
+let storyTimer;
+function closeStory(){ clearTimeout(storyTimer); $('#storyBox')?.remove(); }
+async function openStory(list, i){
+  closeStory(); const s = list[i]; if(!s) return;
+  await sign([s.path]);
+  const next = () => openStory(list, i + 1);
+  const bar = h('i', { className:'sbar' });
+  const box = h('div', { id:'storyBox', className:'overlay' }, h('div', { className:'strack' }, bar),
+    h('b', {}, nameOf(s.user_id) + ' · ' + when(s.created_at)), h('img', { src:urlOf(s.path) || '', alt:s.caption || '', onclick:next }), s.caption && h('p', {}, s.caption),
+    h('div', { className:'row' }, btn(t('close'), closeStory, 'btn small ghost'),
+      s.user_id === me.id ? btn(t('del'), async () => { if(!confirm(t('sure'))) return; await q(sb.from('stories').delete().eq('id', s.id)); await sb.storage.from('photos').remove([s.path]); closeStory(); render(true); }, 'btn small danger')
+        : btn('⚑ ' + t('report'), async () => { clearTimeout(storyTimer); const reason = (prompt(t('why')) || '').trim(); if(reason){ await q(sb.rpc('report_item', { p_kind:'story', p_target:s.id, p_reason:reason })); toast(t('reported')); } closeStory(); }, 'btn small ghost')));
+  document.body.append(box);
+  bar.animate([{ width:'0%' }, { width:'100%' }], { duration:6000, fill:'forwards' });
+  storyTimer = setTimeout(() => i + 1 < list.length ? next() : closeStory(), 6000);
+}
+
+// ---------- polls ----------
+function pollForm(){
+  const question = h('input', { placeholder:t('question'), maxLength:200, 'data-k':'pq' });
+  const opts = [1,2,3,4].map(n => h('input', { placeholder:t('option') + ' ' + n, maxLength:60, 'data-k':'po' + n }));
+  return h('details', { className:'box stk' }, h('summary', {}, '📊 ' + t('newPoll')), question, opts, btn(t('create'), async b => {
+    const options = opts.map(o => o.value.trim()).filter(Boolean);
+    if(!question.value.trim() || options.length < 2) return toast(t('needPoll'));
+    await q(sb.from('polls').insert({ user_id:me.id, question:question.value.trim(), options })); burst(b, '📊'); render();
+  }));
+}
+function pollCard(p){
+  const votes = (p.poll_votes || []).filter(v => !blocks.has(v.user_id)), mine = votes.find(v => v.user_id === me.id)?.choice;
+  return h('article', { className:'post stk' }, h('div', { className:'row' }, who(p.user_id, when(p.created_at)), itemAction('poll', p.id, p.user_id, 'polls')),
+    p.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')), h('p', {}, h('b', {}, '📊 ' + p.question)),
+    p.options.map((o, i) => {
+      const n = votes.filter(v => v.choice === i).length;
+      const el = btn(`${o} · ${n}`, async () => { await q(mine === i ? sb.from('poll_votes').delete().match({ poll_id:p.id, user_id:me.id }) : sb.from('poll_votes').upsert({ poll_id:p.id, user_id:me.id, choice:i }, { onConflict:'poll_id,user_id' })); render(true); }, 'pollopt' + (mine === i ? ' on' : ''));
+      el.style.setProperty('--p', (votes.length ? Math.round(n * 100 / votes.length) : 0) + '%'); return el;
+    }));
+}
+
+// ---------- birthdays ----------
+async function birthdayBanner(){
+  const rows = await q(sb.from('birthdays').select('*'));
+  const today = new Date(); today.setHours(0,0,0,0);
+  const out = [];
+  rows.forEach(b => {
+    if(!profiles[b.user_id] || blocks.has(b.user_id)) return;
+    let d = new Date(today.getFullYear(), b.month - 1, b.day); if(d < today) d = new Date(today.getFullYear() + 1, b.month - 1, b.day);
+    const days = Math.round((d - today) / 864e5), mine = b.user_id === me.id;
+    if(days === 0){
+      out.push(card(h('b', {}, '🎂 ' + (mine ? t('wishYou') + ', ' + nameOf(me.id) + '!' : t('bdayToday') + ': ' + nameOf(b.user_id)))));
+      const key = 'bday:' + today.toDateString() + b.user_id;
+      if(!store.get(key)){ store.set(key, '1'); setTimeout(() => ['🎉','🎂','🎈'].forEach((e,i) => setTimeout(() => burst($('.brand'), e), i * 250)), 500); }
+    } else if(days <= 7 && !mine) out.push(card(mut(`🎈 ${t('bdaySoon')}: ${nameOf(b.user_id)} · ${d.toLocaleDateString(lang + '-IN', { day:'numeric', month:'short' })}`)));
+  });
+  return out;
+}
+
+// ---------- notifications ----------
+async function alertsView(){
+  const rows = (await q(sb.from('notifications').select('*').order('created_at', { ascending:false }).limit(60))).filter(n => profiles[n.actor] && !blocks.has(n.actor));
+  if(rows.some(n => !n.seen)){ await q(sb.from('notifications').update({ seen:true }).eq('seen', false)); noteCount = 0; badge('#noteCount', 0); }
+  return [scroll(sec(t('alerts')), rows.length ? rows.map(n => h('div', { className:'box stk' + (n.seen ? '' : ' new'), onclick:() => go(n.kind === 'request' ? 'people' : n.kind === 'accept' ? 'user' : 'me', n.kind === 'accept' ? n.actor : undefined) },
+    h('div', { className:'row' }, av(n.actor), h('div', { className:'grow' }, h('b', {}, nameOf(n.actor)), ' ' + t('n_' + n.kind), mut(when(n.created_at)))))) : empty(t('none')))];
+}
+
 // ---------- feed + posts ----------
 function composer(){
   const text = h('textarea', { placeholder:t('whatsNew'), maxLength:2000, 'data-k':'post' });
@@ -457,8 +610,9 @@ async function postList(userId){
   const ids = userId ? [userId] : [me.id, ...friendIds()];
   const posts = await q(query.in('user_id', ids));
   await sign(posts.map(p => p.path));
-  if(!posts.length) return [empty(t('noPosts'))];
-  return posts.map(p => {
+  const [polls, reacts] = await Promise.all([q(sb.from('polls').select('*, poll_votes(*)').in('user_id', ids).order('created_at', { ascending:false }).limit(20)), getReacts('post', posts.map(p => p.id))]);
+  if(!posts.length && !polls.length) return [empty(t('noPosts'))];
+  const cards = posts.map(p => {
     const likes = p.post_likes || []; const liked = likes.some(l => l.user_id === me.id);
     const input = h('input', { placeholder:t('comment'), maxLength:500, className:'grow', 'data-k':'c' + p.id });
     return h('article', { className:'post stk' },
@@ -471,6 +625,7 @@ async function postList(userId){
         await q(liked ? sb.from('post_likes').delete().match({ post_id:p.id, user_id:me.id }) : sb.from('post_likes').insert({ post_id:p.id, user_id:me.id }));
         render(true);
       }, 'btn small ghost'),
+      reactRow('post', p.id, reacts.filter(r => r.target === p.id), () => render(true)),
       (p.comments || []).filter(c => !blocks.has(c.user_id)).sort((a,b) => a.created_at.localeCompare(b.created_at)).map(c =>
         h('div', { className:'cmt' }, h('b', {}, nameOf(c.user_id) + ': '), c.content, ' ', c.hidden && h('span', { className:'hiddenNote' }, t('hiddenNote')), itemAction('comment', c.id, c.user_id, 'comments'))),
       h('div', { className:'row' }, input, btn(t('send'), async () => {
@@ -478,6 +633,8 @@ async function postList(userId){
         await q(sb.from('comments').insert({ post_id:p.id, user_id:me.id, content })); input.value = ''; render(true);
       })));
   });
+  return [...cards.map((el, i) => [posts[i].created_at, el]), ...polls.map(p => [p.created_at, pollCard(p)])]
+    .sort((a, b) => new Date(b[0]) - new Date(a[0])).map(x => x[1]);
 }
 
 // ---------- profiles + people ----------
@@ -493,13 +650,13 @@ function friendButtons(id){
 async function profileView(id){
   const p = profiles[id]; if(!p) return [scroll(empty(t('none')))];
   const mine = id === me.id, friend = shipWith(id)?.status === 'accepted';
-  const head = h('div', { className:'box stk profile' }, av(id, true), h('h2', { className:'sec' }, p.name), p.bio && h('p', {}, p.bio),
+  const head = h('div', { className:'box stk profile' }, av(id, true), h('h2', { className:'sec' }, p.name), !mine && mut(seenText(id)), p.bio && h('p', {}, p.bio),
     mut(friendIds().length && mine ? `${friendIds().length} · ${t('friends')}` : ''),
     h('div', { className:'row' }, mine ? [btn('✏️ ' + t('edit'), () => go('settings')), btn('👥 ' + t('friends'), () => go('people'), 'btn small ghost')] : friendButtons(id)),
     !mine && h('div', { className:'row' }, reportBtn('profile', id), !blocks.has(id) && btn(t('block'), async () => {
       if(!confirm(t('sure'))) return; await q(sb.from('blocks').insert({ blocker:me.id, blocked:id })); render(); }, 'link')));
   const posts = mine || friend || admin() ? await postList(id) : [empty(t('friendsOnly'))];
-  return [scroll(head, mine && composer(), posts)];
+  return [scroll(head, mine && composer(), mine && pollForm(), posts)];
 }
 async function peopleView(){
   const list = h('div');
@@ -530,57 +687,204 @@ async function chatsView(){
       if(!gname.value.trim() || !members.length) return toast(t('needGroup'));
       go('chat', await q(sb.rpc('create_group', { group_title:gname.value, members })));
     }));
-  const line = (id, title, sub, icon) => h('div', { className:'box stk', onclick:() => go('chat', id) }, h('div', { className:'row' }, icon, h('div', { className:'grow' }, h('b', {}, title), sub && mut(sub))));
+  const line = (id, title, sub, icon) => h('div', { className:'box stk', onclick:() => go('chat', id) }, h('div', { className:'row' }, icon, h('div', { className:'grow' }, h('b', {}, title), sub && mut(sub)), unread[id] > 0 && h('b', { className:'count' }, String(unread[id]))));
   return [scroll(line('lounge', '🪐 ' + t('lounge')), form, chats.map(c => {
     const ids = (c.chat_members || []).map(m => m.user_id), o = ids.find(i => i !== me.id);
     if(!c.is_group && blocks.has(o)) return null;
-    return c.is_group ? line(c.id, '👥 ' + c.title, ids.map(nameOf).join(', ')) : line(c.id, nameOf(o), '', av(o));
+    return c.is_group ? line(c.id, '👥 ' + c.title, ids.map(nameOf).join(', ')) : line(c.id, nameOf(o), seenText(o), av(o));
   }))];
 }
-function bubble(m, room, fresh){
-  const mine = m.user_id === me.id;
+const msgKind = room => room === 'lounge' ? 'message' : 'chat_message';
+function bubble(m, room, reacts, fresh){
+  const mine = m.user_id === me.id, kind = msgKind(room), url = urlOf(m.media_path);
   return h('div', { className:'m' + (mine ? ' me' : '') + (fresh ? ' pop' : ''), 'data-id':m.id },
     !mine && h('div', { className:'who' }, nameOf(m.user_id)),
-    h('div', {}, m.content), m.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')),
-    h('div', { className:'t' }, when(m.created_at) + ' ', itemAction(room === 'lounge' ? 'message' : 'chat_message', m.id, m.user_id, room === 'lounge' ? 'messages' : 'chat_messages')));
+    url && m.media_type === 'image' && h('img', { className:'mimg', src:url, alt:'', onclick:() => zoom(url) }),
+    url && m.media_type === 'audio' && h('audio', { controls:true, preload:'none', src:url }),
+    m.content && h('div', {}, m.content), m.hidden && h('div', { className:'hiddenNote' }, t('hiddenNote')),
+    reactRow(kind, m.id, reacts.filter(r => r.target === m.id), syncChat),
+    h('div', { className:'t' }, when(m.created_at) + ' ', itemAction(kind, m.id, m.user_id, room === 'lounge' ? 'messages' : 'chat_messages')));
 }
 async function fetchMsgs(room){
   let query = room === 'lounge' ? sb.from('messages').select('*') : sb.from('chat_messages').select('*').eq('chat_id', room);
-  const rows = await q(query.order('created_at', { ascending:false }).limit(150));
-  return rows.reverse().filter(m => !blocks.has(m.user_id));
+  const rows = (await q(query.order('created_at', { ascending:false }).limit(100))).reverse().filter(m => !blocks.has(m.user_id));
+  await sign(rows.map(m => m.media_path), 'chatmedia');
+  return { rows, reacts: await getReacts(msgKind(room), rows.map(m => m.id)) };
 }
-// adds new messages and removes deleted ones without touching what is being typed
+async function markRead(room){
+  await q(sb.from('chat_reads').upsert({ user_id:me.id, room }, { onConflict:'user_id,room' }));
+  await loadBadges();
+}
+// adds new messages, removes deleted ones and updates reactions without touching what is being typed
 async function syncChat(){
   const box = $('#msgs'); if(!box) return;
-  const room = box.dataset.room, rows = await fetchMsgs(room);
+  const room = box.dataset.room, { rows, reacts } = await fetchMsgs(room);
   if($('#msgs') !== box) return;
   const ids = new Set(rows.map(m => String(m.id)));
   box.querySelectorAll('.m').forEach(el => { if(!ids.has(el.dataset.id)) el.remove(); });
   const near = box.scrollHeight - box.scrollTop - box.clientHeight < 140;
   let added = false;
-  rows.forEach(m => { if(!box.querySelector(`[data-id="${m.id}"]`)){ box.querySelector('.empty')?.remove(); box.append(bubble(m, room, true)); added = true; } });
+  rows.forEach(m => {
+    const el = box.querySelector(`[data-id="${m.id}"]`);
+    if(!el){ box.querySelector('.empty')?.remove(); box.append(bubble(m, room, reacts, true)); added = true; return; }
+    const old = el.querySelector('.reacts'), now = reactRow(msgKind(room), m.id, reacts.filter(r => r.target === m.id), syncChat);
+    if(old.dataset.sig !== now.dataset.sig) old.replaceWith(now);
+  });
   if(added && near) box.scrollTop = box.scrollHeight;
+  if(!document.hidden) await markRead(room);
+}
+let recorder = null, typedAt = 0, typingTimer;
+const typingNow = new Map();
+function showTyping(row){
+  if(row && row.user_id !== me.id && !blocks.has(row.user_id) && route().name === 'chat' && route().arg === row.room) typingNow.set(row.user_id, Date.now() + 5000);
+  const el = $('#typing'); if(!el) return;
+  for(const [id, until] of typingNow) if(until < Date.now()) typingNow.delete(id);
+  el.textContent = typingNow.size ? [...typingNow.keys()].map(nameOf).join(', ') + ' ' + t('isTyping') : '';
+  clearTimeout(typingTimer); if(typingNow.size) typingTimer = setTimeout(() => showTyping(), 1500);
+}
+async function sendMsg(room, content, file){
+  const row = { user_id:me.id, content }; if(room !== 'lounge') row.chat_id = room;
+  if(file){
+    const type = file.type.split(';')[0], audio = type.startsWith('audio/');
+    const body = audio ? new Blob([file], { type }) : await resize(file);
+    const path = `${room}/${me.id}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${audio ? type.split('/')[1] : 'jpg'}`;
+    await q(sb.storage.from('chatmedia').upload(path, body, { contentType: audio ? type : 'image/jpeg' }));
+    row.media_path = path; row.media_type = audio ? 'audio' : 'image';
+  }
+  try { await q(sb.from(room === 'lounge' ? 'messages' : 'chat_messages').insert(row)); }
+  catch(e){ if(row.media_path) await sb.storage.from('chatmedia').remove([row.media_path]); throw e; }
+  await syncChat(); const box = $('#msgs'); if(box) box.scrollTop = 1e9;
+}
+function stopRecording(discard){
+  if(!recorder) return; const r = recorder; recorder = null; r.discard = discard;
+  if(r.state !== 'inactive') r.stop();
+}
+async function toggleRecord(room, button){
+  if(recorder) return stopRecording(false);
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio:true }); } catch { return toast(t('noMic')); }
+  if(!window.MediaRecorder || route().arg !== room){ stream.getTracks().forEach(x => x.stop()); return toast(t('noMic')); }
+  const type = ['audio/webm','audio/mp4','audio/ogg'].find(x => MediaRecorder.isTypeSupported(x));
+  const r = recorder = new MediaRecorder(stream, type ? { mimeType:type } : {}); const parts = [];
+  r.ondataavailable = e => parts.push(e.data);
+  const limit = setTimeout(() => { if(recorder === r) stopRecording(false); }, 60000);
+  r.onstop = async () => {
+    clearTimeout(limit); stream.getTracks().forEach(x => x.stop()); button.textContent = '🎤'; button.classList.remove('rec');
+    if(recorder === r) recorder = null;
+    if(!r.discard && parts.length) await sendMsg(room, '', new Blob(parts, { type:r.mimeType || type })).catch(fail);
+  };
+  r.start(); button.textContent = '⏹️'; button.classList.add('rec'); toast(t('stopSend'));
 }
 async function chatView(room){
-  let title = '🪐 ' + t('lounge'), chat = null;
+  let title = '🪐 ' + t('lounge'), chat = null, friend = null;
   if(room !== 'lounge'){
     chat = await q(sb.from('chats').select('*, chat_members(user_id)').eq('id', room).single());
-    title = chat.is_group ? '👥 ' + chat.title : nameOf(chat.chat_members.find(m => m.user_id !== me.id)?.user_id);
+    const o = chat.chat_members.find(m => m.user_id !== me.id)?.user_id;
+    title = chat.is_group ? '👥 ' + chat.title : nameOf(o);
+    if(!chat.is_group && shipWith(o)?.status === 'accepted') friend = o;
   }
-  const rows = await fetchMsgs(room);
-  const table = room === 'lounge' ? 'messages' : 'chat_messages';
-  const input = h('input', { placeholder:t('typeMsg'), maxLength:2000, autocomplete:'off', 'data-k':'msg' });
-  const send = h('button', { type:'submit', className:'btn small' }, t('send'));
-  return [h('div', { className:'bar' }, btn('←', () => go('chats'), 'btn small ghost'), h('b', { style:'flex:1' }, title),
+  const { rows, reacts } = await fetchMsgs(room);
+  await markRead(room); typingNow.clear();
+  const input = h('input', { placeholder:t('typeMsg'), maxLength:2000, autocomplete:'off', 'data-k':'msg', oninput:() => {
+    if(Date.now() - typedAt < 3000 || !input.value) return; typedAt = Date.now();
+    sb.from('typing').upsert({ room, user_id:me.id }, { onConflict:'room,user_id' }).then(() => {});
+  } });
+  const send = h('button', { type:'submit', className:'btn small' }, '➤'); send.setAttribute('aria-label', t('send'));
+  const file = h('input', { type:'file', accept:'image/*', hidden:true });
+  file.onchange = async () => { const f = file.files[0]; file.value = ''; if(f) await sendMsg(room, '', f).catch(fail); };
+  const mic = btn('🎤', b => toggleRecord(room, b), 'btn small ghost'); mic.title = t('record');
+  const cam = btn('📷', () => file.click(), 'btn small ghost'); cam.title = t('addPic');
+  return [h('div', { className:'bar' }, btn('←', () => go('chats'), 'btn small ghost'), h('div', { style:'flex:1;min-width:0' }, h('b', {}, title), friend && h('small', { style:'display:block' }, seenText(friend))),
+      friend && btn('📹', () => startCall(friend), 'btn small'),
       chat?.is_group && btn(t('leave'), async () => { if(!confirm(t('sure'))) return; await q(sb.from('chat_members').delete().match({ chat_id:room, user_id:me.id })); go('chats'); }, 'btn small danger')),
-    h('div', { id:'msgs', 'data-room':room }, rows.length ? rows.map(m => bubble(m, room)) : empty(t('none'))),
+    h('div', { id:'msgs', 'data-room':room }, rows.length ? rows.map(m => bubble(m, room, reacts)) : empty(t('none'))),
+    h('div', { id:'typing' }),
     h('form', { id:'msgForm', onsubmit: async e => {
       e.preventDefault(); const content = input.value.trim(); if(!content || send.disabled) return; send.disabled = true;
-      try { const row = { user_id:me.id, content }; if(room !== 'lounge') row.chat_id = room; await q(sb.from(table).insert(row)); input.value = ''; await syncChat(); $('#msgs').scrollTop = 1e9; }
-      catch(err){ fail(err); }
+      try { await sendMsg(room, content); input.value = ''; } catch(err){ fail(err); }
       send.disabled = false; input.focus();
-    } }, input, send)];
+    } }, cam, mic, input, send, file)];
 }
+
+// ---------- video call (one to one, friends only) ----------
+let call = null;
+function callUI(id, incoming){
+  const remote = h('video', { autoplay:true, playsInline:true, className:'remote' });
+  const local = h('video', { autoplay:true, playsInline:true, muted:true, className:'local' });
+  const status = h('b', {}, incoming ? nameOf(id) + ' ' + t('incoming') : t('calling'));
+  const controls = h('div', { className:'row' });
+  const box = h('div', { id:'callBox', className:'overlay' }, av(id, true), h('h2', { className:'sec' }, nameOf(id)), status, remote, local, controls);
+  document.body.append(box); return { box, remote, local, status, controls };
+}
+function liveControls(c){
+  const toggle = (kind, label) => btn(label + ' ✅', b => { const tr = c.stream.getTracks().find(x => x.kind === kind); if(!tr) return; tr.enabled = !tr.enabled; b.textContent = label + (tr.enabled ? ' ✅' : ' 🚫'); }, 'btn small ghost');
+  c.ui.controls.replaceChildren(toggle('audio', t('mic')), toggle('video', t('cam')), btn(t('hangup'), () => endCall('ended'), 'btn small danger'));
+}
+async function media(c){
+  const stream = await navigator.mediaDevices.getUserMedia({ audio:true, video:{ facingMode:'user' } });
+  if(call !== c){ stream.getTracks().forEach(x => x.stop()); throw new Error('cancelled'); }
+  c.stream = stream; c.ui.local.srcObject = stream;
+  c.pc = new RTCPeerConnection({ iceServers:[{ urls:'stun:stun.l.google.com:19302' }] });
+  stream.getTracks().forEach(x => c.pc.addTrack(x, stream));
+  c.pc.ontrack = e => { c.ui.remote.srcObject = e.streams[0]; c.ui.box.classList.add('live'); };
+  c.pc.onconnectionstatechange = () => { if(call !== c) return; const st = c.pc.connectionState; if(st === 'connected') c.ui.status.textContent = ''; if(st === 'failed'){ toast(t('callFail')); endCall('ended'); } };
+}
+// wait until the network addresses are collected, so one message is enough
+const gathered = pc => new Promise(res => { if(pc.iceGatheringState === 'complete') return res(); const done = () => { if(pc.iceGatheringState === 'complete') res(); }; pc.addEventListener('icegatheringstatechange', done); setTimeout(res, 3000); });
+async function startCall(id){
+  if(call) return;
+  const c = call = { peer:id, out:true }; c.ui = callUI(id); liveControls(c);
+  try {
+    await media(c);
+    await c.pc.setLocalDescription(await c.pc.createOffer()); await gathered(c.pc);
+    if(call !== c) return;
+    const row = await q(sb.from('calls').insert({ callee:id, offer:c.pc.localDescription.toJSON() }).select().single());
+    if(call !== c){ await sb.from('calls').update({ status:'ended' }).eq('id', row.id); return; }
+    c.id = row.id; c.timer = setTimeout(() => { if(call === c && !c.answered){ toast(t('noAnswer')); endCall('ended'); } }, 45000);
+    c.poll = setInterval(checkCalls, 2500);
+  } catch(e){ if(call === c){ toast(e.name === 'NotAllowedError' || e.name === 'NotFoundError' ? t('noCam') : t('failed')); endCall('ended'); } }
+}
+function ring(row){
+  const c = call = { id:row.id, peer:row.caller, offer:row.offer }; c.ui = callUI(row.caller, true);
+  c.ui.controls.replaceChildren(btn('📞 ' + t('answer'), () => answerCall(c)), btn(t('hangup'), () => endCall('declined'), 'btn small danger'));
+  navigator.vibrate?.([300,200,300,200,300]);
+  c.poll = setInterval(checkCalls, 2500); c.timer = setTimeout(() => { if(call === c && !c.answered) endCall(); }, 45000);
+}
+async function answerCall(c){
+  c.answered = true; c.ui.status.textContent = t('connecting'); liveControls(c);
+  try {
+    await media(c); await c.pc.setRemoteDescription(c.offer);
+    await c.pc.setLocalDescription(await c.pc.createAnswer()); await gathered(c.pc);
+    if(call !== c) return;
+    const rows = await q(sb.from('calls').update({ status:'accepted', answer:c.pc.localDescription.toJSON() }).eq('id', c.id).eq('status', 'ringing').select());
+    if(!rows.length) endCall();
+  } catch(e){ if(call === c){ toast(t('noCam')); endCall('ended'); } }
+}
+async function endCall(status){
+  const c = call; if(!c) return; call = null;
+  clearTimeout(c.timer); clearInterval(c.poll); c.stream?.getTracks().forEach(x => x.stop()); c.pc?.close(); c.ui.box.remove();
+  if(status && c.id) await sb.from('calls').update({ status }).eq('id', c.id);
+}
+let checking = false;
+async function checkCalls(){
+  if(!me || checking) return; checking = true;
+  try {
+    const c = call;
+    if(!c){ const [row] = await q(sb.rpc('incoming_call')) || []; if(row && !call && profiles[row.caller] && !blocks.has(row.caller)) ring(row); }
+    else if(c.id){
+      const row = await q(sb.from('calls').select('*').eq('id', c.id).maybeSingle());
+      if(call !== c) return;
+      if(!row || row.status === 'ended' || row.status === 'declined') endCall();
+      else if(c.out && !c.answered && row.status === 'accepted' && row.answer){ c.answered = true; c.ui.status.textContent = t('connecting'); await c.pc.setRemoteDescription(row.answer); }
+      else if(!c.out && !c.answered && row.status !== 'ringing') endCall(); // answered on another device
+    }
+  } catch(e){ console.error(e); } finally { checking = false; }
+}
+window.addEventListener('pagehide', () => { if(call) endCall('ended'); });
+
+// ---------- online status ----------
+const showsOnline = () => store.get('hideOnline:' + me.id) !== '1';
+function heartbeat(){ if(me && !document.hidden && showsOnline()) sb.from('presence').upsert({ user_id:me.id }, { onConflict:'user_id' }).then(() => {}); }
 
 // ---------- map + location ----------
 let watchId = null, lastPos = null, lastSent = 0, beat = null, saving = Promise.resolve(), map = null, markers = null, fitted = false, spots = [];
@@ -697,6 +1001,13 @@ async function settingsView(){
   const sws = h('div', { className:'sws' }, COLORS.map(c => { const b = btn('', async () => { await q(sb.from('profiles').update({ color:c }).eq('id', me.id)); sws.querySelectorAll('.swc').forEach(x => x.classList.toggle('on', x === b)); profiles[me.id].color = c; }, 'swc' + (c === p.color ? ' on' : '')); b.style.backgroundColor = c; b.setAttribute('aria-label', c); return b; }));
   const pass = h('input', { type:'password', minLength:6, placeholder:t('newPass'), autocomplete:'new-password' });
   const blocked = [...blocks].filter(id => profiles[id]);
+  const bd = (await q(sb.from('birthdays').select('*').eq('user_id', me.id)))[0];
+  const num = (n, label, cur) => h('select', {}, h('option', { value:'' }, label), Array.from({ length:n }, (_, i) => h('option', { value:String(i+1), selected:cur === i+1 }, String(i+1))));
+  const bday = num(31, t('day'), bd?.day), bmonth = num(12, t('month'), bd?.month);
+  const onlineBox = h('input', { type:'checkbox', checked:showsOnline(), onchange:async () => {
+    store.set('hideOnline:' + me.id, onlineBox.checked ? null : '1');
+    if(onlineBox.checked) heartbeat(); else await sb.from('presence').delete().eq('user_id', me.id);
+  } });
   let reports = [];
   if(admin()){
     const rows = await q(sb.from('reports').select('*').order('created_at', { ascending:false }).limit(100));
@@ -710,20 +1021,27 @@ async function settingsView(){
     card(h('div', { className:'lab' }, '🌐 ' + t('language')), pick),
     card(h('div', { className:'lab' }, t('photo')), h('div', { className:'row' }, av(me.id, true), p.avatar_path && btn(t('removePhoto'), () => setAvatar(null), 'btn small ghost')), h('div', { className:'lab' }, t('choosePhoto')), file),
     card(h('div', { className:'lab' }, t('yourName')), name, bio, btn(t('save'), async () => { if(!name.value.trim()) return; await q(sb.from('profiles').update({ name:name.value.trim(), bio:bio.value.trim() }).eq('id', me.id)); toast(t('saved')); render(true); }), h('div', { className:'lab' }, t('color')), sws),
+    card(h('div', { className:'lab' }, '🎂 ' + t('birthday')), h('div', { className:'row' }, h('div', { className:'grow' }, bday), h('div', { className:'grow' }, bmonth)), btn(t('save'), async () => {
+      const day = +bday.value, month = +bmonth.value;
+      if(!day && !month) await q(sb.from('birthdays').delete().eq('user_id', me.id));
+      else { if(!day || !month || new Date(2000, month - 1, day).getDate() !== day) return toast(t('failed')); await q(sb.from('birthdays').upsert({ user_id:me.id, day, month }, { onConflict:'user_id' })); }
+      toast(t('saved'));
+    })),
+    card(h('label', { className:'check' }, onlineBox, t('showOnline'))),
     card(h('div', { className:'lab' }, me.email || ''), pass, btn(t('changePass'), async () => { if(pass.value.length < 6) return toast(t('password6')); await q(sb.auth.updateUser({ password:pass.value })); pass.value = ''; toast(t('saved')); })),
     blocked.length > 0 && card(h('div', { className:'lab' }, t('blocked')), blocked.map(id => h('div', { className:'row' }, h('b', { className:'grow' }, nameOf(id)), friendButtons(id)))),
     reports, btn(t('signout'), logout, 'btn ghost'))];
 }
 
 // ---------- router (the phone's Back button works) ----------
-function route(){ const [name, arg] = location.hash.slice(1).split('/'); return ['home','chats','chat','map','plans','me','user','people','settings'].includes(name) ? { name, arg } : { name:'home' }; }
+function route(){ const [name, arg] = location.hash.slice(1).split('/'); return ['home','chats','chat','map','plans','me','user','people','settings','alerts'].includes(name) ? { name, arg } : { name:'home' }; }
 function go(name, arg){ const hash = '#' + name + (arg ? '/' + arg : ''); if(location.hash === hash) render(); else location.hash = hash; }
-const VIEWS = { home:async () => [scroll(composer(), await postList())], chats:chatsView, chat:chatView, map:mapView, plans:plansView,
+const VIEWS = { home:async () => [scroll(await storyBar(), await birthdayBanner(), composer(), pollForm(), await postList())], alerts:alertsView, chats:chatsView, chat:chatView, map:mapView, plans:plansView,
   me:() => profileView(me.id), user:profileView, people:peopleView, settings:settingsView };
 async function render(quiet){
   if(!me || $('#app').hidden) return;
   const mine = ++token, r = route(), key = location.hash, view = $('#view');
-  const tab = { chat:'chats', user:'', people:'', settings:'me' }[r.name] ?? r.name;
+  const tab = { chat:'chats', user:'', people:'', alerts:'', settings:'me' }[r.name] ?? r.name;
   $('#nav').classList.toggle('noind', !tab); $('#nav').style.setProperty('--i', Math.max(0, NAV.indexOf(tab)));
   $$('#nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   if(!quiet || drawn !== key) view.replaceChildren(empty(t('loading')));
@@ -742,30 +1060,36 @@ async function render(quiet){
     const box = $('#msgs'); if(box) box.scrollTop = box.scrollHeight;
   } catch(e){ console.error(e); if(mine === token){ drawn = ''; view.replaceChildren(scroll(empty(t('failed') + ' ' + (e.message || '')), btn('↻', () => render(), 'btn'))); } }
 }
-window.addEventListener('hashchange', () => render());
+window.addEventListener('hashchange', () => { stopRecording(true); closeStory(); render(); });
 $('#nav').onclick = e => { const b = e.target.closest('button'); if(b) go(b.dataset.tab); };
 $('#peopleBtn').onclick = () => go('people');
 $('#setBtn').onclick = () => go('settings');
+$('#noteBtn').onclick = () => go('alerts');
 
 // ---------- live updates ----------
 let softTimer;
 function typing(){ return [...$('#view').querySelectorAll('input,textarea,details')].some(el => el.tagName === 'DETAILS' ? el.open : el.type === 'checkbox' ? false : el.type === 'datetime-local' ? false : el === document.activeElement || (el.value && route().name !== 'settings')) || route().name === 'settings'; }
-function soft(){ clearTimeout(softTimer); softTimer = setTimeout(() => { if(!me) return; if(route().name === 'chat') syncChat().catch(console.error); else if(!typing()) render(true); else loadBase().catch(console.error); }, 700); }
+function soft(){ clearTimeout(softTimer); softTimer = setTimeout(() => { if(!me) return; if(route().name === 'chat') syncChat().catch(console.error); else if(!typing()) render(true); else loadBase().catch(console.error); if(route().name === 'chat') loadBadges().catch(console.error); }, 700); }
 function subscribe(){
   channel = sb.channel('hub');
   ['messages','chat_messages','chat_members','profiles','friendships','photos','post_likes','comments','locations','plans','plan_options','plan_votes','plan_rsvps','reports']
+    .concat(['notifications','reactions','stories','polls','poll_votes'])
     .forEach(table => channel.on('postgres_changes', { event:'*', schema:'public', table }, soft));
+  channel.on('postgres_changes', { event:'*', schema:'public', table:'typing' }, p => showTyping(p.new));
+  channel.on('postgres_changes', { event:'*', schema:'public', table:'calls' }, () => checkCalls());
   channel.subscribe();
 }
 setInterval(() => { if(me && !document.hidden && ['chat','map'].includes(route().name)) soft(); }, 20000);
-document.addEventListener('visibilitychange', () => { if(!document.hidden && me){ sendLoc(true); soft(); } });
+setInterval(heartbeat, 45000);
+setInterval(() => { if(me && !document.hidden){ checkCalls(); loadBadges().catch(console.error); } }, 15000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden && me){ sendLoc(true); heartbeat(); checkCalls(); soft(); } });
 
 // ---------- sign in / register ----------
 function applyLang(){
   document.documentElement.lang = lang;
   $$('[data-i]').forEach(el => el.textContent = t(el.dataset.i));
   $$('[data-ph]').forEach(el => el.placeholder = t(el.dataset.ph));
-  $('#peopleBtn').title = t('people'); $('#setBtn').title = t('settings');
+  $('#peopleBtn').title = t('people'); $('#noteBtn').title = t('alerts'); $('#setBtn').title = t('settings');
 }
 function hideSplash(){ $('#splash').classList.add('gone'); }
 function splashError(msg){ $('#splash').classList.remove('gone'); $('#splash').querySelectorAll('.ball,.ground').forEach(x => x.hidden = true); $('#splashMsg').textContent = msg; $('#splashMsg').hidden = false; $('#splashRetry').hidden = false; }
@@ -788,7 +1112,7 @@ submit('#signupForm', '#suBtn', async () => {
 submit('#gateForm', '#gateBtn', async () => { const ok = await q(sb.rpc('join_with_code', { p_code:$('#gateCode').value.trim() })); if(ok !== true){ $('#gateErr').textContent = t('badCode'); return; } await enter(gateUser); });
 let gateUser = null;
 async function logout(){
-  if(me) await stopSharing(); // if this fails you stay signed in, so the location is never left behind
+  if(me){ await stopSharing(); await endCall('ended'); await sb.from('presence').delete().eq('user_id', me.id); } // if sharing cannot stop, you stay signed in
   await sb.auth.signOut(); location.hash = ''; location.reload();
 }
 $('#gateLogout').onclick = async () => { await sb.auth.signOut(); location.reload(); };
@@ -799,8 +1123,8 @@ async function enter(user){
   if(error || !data) return splashError(t('netErr') + (error ? ' ' + error.message : ''));
   if(!data.approved){ gateUser = user; $('#gateName').textContent = data.name; show('gate'); return; }
   me = user;
-  try { await loadBase(); } catch(e){ me = null; return splashError(t('dbErr') + ' ' + e.message); }
-  show('app'); subscribe(); if(store.get(shareKey())) startWatch(); render();
+  try { await loadBase(); } catch(e){ me = null; return splashError(t('dbErr') + ' (features SQL) ' + e.message); }
+  show('app'); subscribe(); if(store.get(shareKey())) startWatch(); heartbeat(); checkCalls(); render();
 }
 applyLang(); authTab('login');
 (async function boot(){
